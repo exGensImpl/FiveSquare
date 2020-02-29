@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="ExGens.FiveSquare.UI.Navigation.NavigationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ExGens.FiveSquare.UI.Navigation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance local:NavigationViewModel}">
+  <DockPanel>
+    <ListView Grid.Column="0" x:Name="Modes" DockPanel.Dock="Left" IsTabStop="False"
+              ItemsSource="{Binding Modes}"
+              DisplayMemberPath="Title" BorderBrush="Transparent"/>
+    <ContentControl Grid.Column="1" IsTabStop="False"
+                    Content="{Binding SelectedItem, ElementName=Modes}">
+      <ContentControl.ContentTemplateSelector>
+        <local:ModeDataTemplateSelector/>
+      </ContentControl.ContentTemplateSelector>
+    </ContentControl>
+  </DockPanel>
+</UserControl>

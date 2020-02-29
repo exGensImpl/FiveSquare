@@ -6,11 +6,16 @@
         xmlns:local="clr-namespace:ExGens.FiveSquare"
         mc:Ignorable="d"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:navigation="clr-namespace:ExGens.FiveSquare.UI.Navigation"
         lex:LocalizeDictionary.DesignCulture="ru"
         lex:ResxLocalizationProvider.DefaultAssembly="ExGens.FiveSquare"
         lex:ResxLocalizationProvider.DefaultDictionary="Resources"
         Title="{lex:Loc MainView_Title}" Height="450" Width="800">
     <Grid>
-        
+        <navigation:NavigationView>
+          <navigation:NavigationView.DataContext>
+            <navigation:NavigationViewModel/>
+          </navigation:NavigationView.DataContext>
+        </navigation:NavigationView>
     </Grid>
 </Window>

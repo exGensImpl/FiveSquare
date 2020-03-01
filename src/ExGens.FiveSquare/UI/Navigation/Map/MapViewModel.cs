@@ -8,6 +8,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 {
   internal sealed class MapViewModel : ViewModelBase
   {
+    public Person User { get; }
+
     public IEnumerable<ILayer> Layers
     {
       get => m_layers;
@@ -28,7 +30,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     {
       m_services = services;
 
-      Location = services.FiveSquare.User.Home;
+      User = services.FiveSquare.User;
+      Location = User.Home;
       Layers = new ILayer[]
       {
         LayerFactory.Map(),

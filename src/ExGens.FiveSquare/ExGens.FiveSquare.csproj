@@ -202,6 +202,8 @@
     <Compile Include="Domain\Coordinates.cs" />
     <Compile Include="Services\FiveSquare.cs" />
     <Compile Include="Services\FiveSquareServices.cs" />
+    <Compile Include="Services\SharpSquareMapper.cs" />
+    <Compile Include="Services\Tokens.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\Visit.cs" />
     <Compile Include="UI\Navigation\IModeFactory.cs" />

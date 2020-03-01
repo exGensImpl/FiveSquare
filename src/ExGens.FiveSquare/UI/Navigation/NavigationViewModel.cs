@@ -25,6 +25,7 @@ namespace ExGens.FiveSquare.UI.Navigation
     public NavigationViewModel()
     {
       var services = new FiveSquareServices();
+      services.Authenticate(Tokens.My);
 
       foreach (var mode in Modes)
       {

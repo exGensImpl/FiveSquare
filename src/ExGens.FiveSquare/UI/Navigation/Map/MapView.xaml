@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance local:MapViewModel}"
              DataContext="{DynamicResource VM}">
     <DockPanel>
-      <TextBlock DockPanel.Dock="Top" Text="Map" FontSize="24"/>
+      <Label DockPanel.Dock="Top" Content="{Binding User.Name}" FontSize="24" ContentStringFormat="Map of {0} checkins"/>
       <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding Location, UpdateSourceTrigger=PropertyChanged}"/> 
     </DockPanel>
 </UserControl>

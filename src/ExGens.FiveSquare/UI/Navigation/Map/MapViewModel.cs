@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Services;
-using Mapsui.Geometries;
 using Mapsui.Layers;
-using Mapsui.Utilities;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
@@ -14,7 +14,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       set => OnPropertyChanged(ref m_layers, value );
     }
 
-    public Point Location
+    public Coordinates Location
     {
       get => _location;
       set => OnPropertyChanged(ref _location, value);
@@ -22,14 +22,18 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     private readonly FiveSquareServices m_services;
     private IEnumerable<ILayer> m_layers;
-    private Point _location;
+    private Coordinates _location;
 
     public MapViewModel(FiveSquareServices services)
     {
       m_services = services;
 
-      Layers = new [] { OpenStreetMap.CreateTileLayer() };
-      Location = new Point(30.3, 59.94);
+      Location = services.FiveSquare.User.Home;
+      Layers = new ILayer[]
+      {
+        LayerFactory.Map(),
+        LayerFactory.Checkins(m_services.FiveSquare.GetVisits().ToArray())
+      };
     }
   }
 }

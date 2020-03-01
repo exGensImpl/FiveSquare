@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Map;
-using ExGens.FiveSquare.UI.Navigation.Test;
 
 namespace ExGens.FiveSquare.UI.Navigation
 {
@@ -24,6 +24,13 @@ namespace ExGens.FiveSquare.UI.Navigation
 
     public NavigationViewModel()
     {
+      var services = new FiveSquareServices();
+
+      foreach (var mode in Modes)
+      {
+        mode.Services = services;
+      }
+
       SelectedMode = Modes.FirstOrDefault();
     }
   }

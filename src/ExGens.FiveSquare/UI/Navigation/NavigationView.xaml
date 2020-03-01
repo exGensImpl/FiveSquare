@@ -8,10 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:NavigationViewModel}">
   <DockPanel>
-    <ListView Grid.Column="0" x:Name="Modes" DockPanel.Dock="Left" IsTabStop="False"
+    <ListView x:Name="Modes" DockPanel.Dock="Left" IsTabStop="False"
               ItemsSource="{Binding Modes}"
+              SelectedItem="{Binding SelectedMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Title" BorderBrush="Transparent"/>
-    <ContentControl Grid.Column="1" IsTabStop="False"
+    <ContentControl IsTabStop="False"
                     Content="{Binding SelectedItem, ElementName=Modes}">
       <ContentControl.ContentTemplateSelector>
         <local:ModeDataTemplateSelector/>

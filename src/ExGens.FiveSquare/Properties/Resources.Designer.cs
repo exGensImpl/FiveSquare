@@ -68,5 +68,14 @@ namespace ExGens.FiveSquare.Properties {
                 return ResourceManager.GetString("MainView_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Map.
+        /// </summary>
+        public static string Map_Title {
+            get {
+                return ResourceManager.GetString("Map_Title", resourceCulture);
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace ExGens.FiveSquare.UI
     {
       if (EqualityComparer<T>.Default.Equals(Field, Value) == false)
       {
+        Field = Value;
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
       }
     }

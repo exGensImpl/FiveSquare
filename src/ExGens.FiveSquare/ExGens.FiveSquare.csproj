@@ -206,6 +206,9 @@
     <Compile Include="Domain\Visit.cs" />
     <Compile Include="UI\Navigation\IModeFactory.cs" />
     <Compile Include="UI\Navigation\Map\BindableMap.cs" />
+    <Compile Include="UI\Navigation\Map\IVisitMetric.cs" />
+    <Compile Include="UI\Navigation\Map\LayerFactory.cs" />
+    <Compile Include="UI\Navigation\Map\LogVisitCountMetric.cs" />
     <Compile Include="UI\Navigation\Map\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>

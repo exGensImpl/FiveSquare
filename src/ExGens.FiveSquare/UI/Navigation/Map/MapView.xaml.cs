@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
-using BruTile;
-using BruTile.Predefined;
-using BruTile.Web;
 using Mapsui;
-using Mapsui.Geometries;
-using Mapsui.Layers;
-using Mapsui.Projection;
 using Mapsui.UI;
-using Mapsui.Utilities;
-using Mapsui.Widgets.ScaleBar;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {

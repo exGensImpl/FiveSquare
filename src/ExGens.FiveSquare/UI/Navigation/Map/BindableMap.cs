@@ -68,9 +68,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     private void ChangeLocation(Point location)
     {
       var coordinate = SphericalMercator.FromLonLat(location.X, location.Y);
-      //Map.Home = n => n.NavigateTo(coordinate, Map.Resolutions[9]);
       Navigator.CenterOn(coordinate);
-      //Navigator.NavigateTo(coordinate, Map.Resolutions[9]);
     }
 
     #endregion

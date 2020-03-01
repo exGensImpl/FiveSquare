@@ -199,7 +199,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Coordinates.cs" />
+    <Compile Include="Services\FiveSquare.cs" />
     <Compile Include="Services\FiveSquareServices.cs" />
+    <Compile Include="Domain\Person.cs" />
+    <Compile Include="Domain\Visit.cs" />
     <Compile Include="UI\Navigation\IModeFactory.cs" />
     <Compile Include="UI\Navigation\Map\BindableMap.cs" />
     <Compile Include="UI\Navigation\Map\MapView.xaml.cs">

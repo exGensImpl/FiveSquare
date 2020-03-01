@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using ExGens.FiveSquare.Domain;
+using ExGens.FiveSquare.Services;
 using Mapsui.Layers;
 using Mapsui.Projection;
 using Mapsui.UI.Wpf;
@@ -45,29 +47,29 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     #region Location
 
-    public Point Location
+    public Coordinates Location
     {
-      get => (Point)GetValue(LocationProperty);
+      get => (Coordinates)GetValue(LocationProperty);
       set => SetValue(LocationProperty, value);
     }
 
     public static readonly DependencyProperty LocationProperty = DependencyProperty.Register(
       name: nameof(Location),
-      propertyType: typeof(Point),
+      propertyType: typeof(Coordinates),
       ownerType: typeof(BindableMap),
-      typeMetadata: new PropertyMetadata(null, LocationPropertyChanged) );
+      typeMetadata: new PropertyMetadata(default(Coordinates), LocationPropertyChanged) );
 
     private static void LocationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      if (d is BindableMap map && e.NewValue is Point location)
+      if (d is BindableMap map && e.NewValue is Coordinates location)
       {
         map.ChangeLocation(location);
       }
     }
 
-    private void ChangeLocation(Point location)
+    private void ChangeLocation(Coordinates location)
     {
-      var coordinate = SphericalMercator.FromLonLat(location.X, location.Y);
+      var coordinate = SphericalMercator.FromLonLat(location.Longitude, location.Latitude);
       Navigator.CenterOn(coordinate);
     }
 

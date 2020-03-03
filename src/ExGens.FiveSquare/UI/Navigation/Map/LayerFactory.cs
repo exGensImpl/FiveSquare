@@ -1,26 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BruTile.Predefined;
 using ExGens.FiveSquare.Domain;
 using Mapsui.Layers;
 using Mapsui.Projection;
 using Mapsui.Providers;
 using Mapsui.Styles;
-using Mapsui.Utilities;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
-  internal static class LayerFactory
+  internal sealed class LayerFactory
   {
-    public static ILayer Map() => OpenStreetMap.CreateTileLayer();
+    private readonly LayerSettings m_settings;
 
-    public static ILayer Checkins(IEnumerable<Visit> visits, IVisitMetric metric = null)
+    public LayerFactory(LayerSettings settings)
     {
-      metric = metric ?? new LogVisitCountMetric(visits, 0.25f);
+      m_settings = settings;
+    }
+
+    public ILayer Map() 
+      => new TileLayer(KnownTileSources.Create(m_settings.TileSource));
+
+    public ILayer Checkins(IReadOnlyCollection<Visit> visits, IVisitMetric metric = null)
+    {
+      metric = metric ?? new LogVisitCountMetric(visits, 3);
 
       return new MemoryLayer
       {
-        Name = "Points",
-        IsMapInfoLayer=true,
+        Name = "Checkins",
+        IsMapInfoLayer = true,
         DataSource = new MemoryProvider(visits.Select(ToFeature)),
         Style = new SymbolStyle{ Opacity = 0 }
       };
@@ -28,21 +36,24 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       IFeature ToFeature(Visit visit)
         => new Feature
         {
+          Styles = GetStyles(visit).ToArray(),
           Geometry = SphericalMercator.FromLonLat(
             visit.Location.Longitude, 
             visit.Location.Latitude), 
-
-          Styles = new []
-          {
-            new SymbolStyle
-            {
-              SymbolScale = 1.2f * metric.GetMetric(visit),
-              Fill = new Brush(Color.Indigo), 
-              Outline = new Pen(Color.Transparent),
-              Opacity = 0.7f
-            }
-          }
         };
+
+      IEnumerable<IStyle> GetStyles(Visit visit)
+        => m_settings.Scales.Select(scale 
+          => new SymbolStyle
+          {
+            SymbolScale = scale.Value * (1 + scale.MetricMultiplier * (metric.GetMetric(visit) - 1)),
+            Fill = new Brush(Color.Indigo),
+            Outline = new Pen(Color.Transparent),
+            Opacity = 0.7f,
+            MinVisible = scale.MinResolution,
+            MaxVisible = scale.MaxResolution
+          }
+        );
     }
   }
 }

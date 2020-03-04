@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ExGens.FiveSquare.Services;
+using ExGens.FiveSquare.UI.Navigation.Auth;
 using ExGens.FiveSquare.UI.Navigation.Map;
 
 namespace ExGens.FiveSquare.UI.Navigation
@@ -11,7 +12,8 @@ namespace ExGens.FiveSquare.UI.Navigation
 
     public IReadOnlyList<IModeFactory> Modes { get; } = new IModeFactory[]
     {
-      new MapMode()
+      new MapMode(),
+      new AuthMode(), 
     };
 
     public IModeFactory SelectedMode
@@ -24,14 +26,14 @@ namespace ExGens.FiveSquare.UI.Navigation
 
     public NavigationViewModel()
     {
-      var services = new FiveSquareServices();
+      var services = new FiveSquareServices(() => SelectedMode = Modes[0]);
 
       foreach (var mode in Modes)
       {
         mode.Services = services;
       }
 
-      SelectedMode = Modes.FirstOrDefault();
+      SelectedMode = Modes.OfType<AuthMode>().Single();
     }
   }
 }

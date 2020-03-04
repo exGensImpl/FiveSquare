@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using ExGens.FiveSquare.Domain;
 using FourSquare.SharpSquare.Core;
 
@@ -12,7 +14,16 @@ namespace ExGens.FiveSquare.Services
     public Person User => GetCurrentUserInfo();
     
     public IReadOnlyList<Visit> GetVisits()
-      => m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
+    {
+      try
+      {
+        return m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
+      }
+      catch(WebException)
+      {
+        return Array.Empty<Visit>();
+      }
+    }
 
     public FiveSquare(SharpSquare client)
     {
@@ -29,7 +40,7 @@ namespace ExGens.FiveSquare.Services
           user.firstName,
           lastCheckinLocation?.ToCoordinates() ?? default);
       }
-      catch
+      catch(WebException)
       {
         return new Person("undefined", default);
       }

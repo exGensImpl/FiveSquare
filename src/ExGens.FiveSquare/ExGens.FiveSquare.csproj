@@ -232,6 +232,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Domain\Coordinates.cs" />
+    <Compile Include="Services\AuthorizationException.cs" />
     <Compile Include="Services\ChromeFourSquareAccessTokenFactory.cs" />
     <Compile Include="Services\FiveSquare.cs" />
     <Compile Include="Services\FiveSquareServices.cs" />

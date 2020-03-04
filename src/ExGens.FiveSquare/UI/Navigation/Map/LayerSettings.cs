@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BruTile.Predefined;
+using ExGens.FiveSquare.Domain;
+using Mapsui.Styles;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
@@ -7,12 +11,18 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
   {
     public KnownTileSource TileSource { get; set; }
 
+    public float CheckinPointOpacity { get; set; }
+
+    public float CheckinPointMultiplier { get; set; }
+
     public IReadOnlyList<PointScale> Scales { get; set; }
 
     public static LayerSettings Default 
       => new LayerSettings
       {
         TileSource = KnownTileSource.OpenStreetMap,
+        CheckinPointMultiplier = 3,
+        CheckinPointOpacity = 0.7f,
         Scales = new []
         {
           new PointScale(  0,     300, 0.35f, 1.2),
@@ -27,5 +37,18 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
           new PointScale(4001, 100000, 0.30f, 0.45f),
         }
       };
+    
+    public IEnumerable<IStyle> GetStyles(Visit visit, IVisitMetric metric)
+      => Scales.Select(scale 
+        => new SymbolStyle
+        {
+          SymbolScale = scale.Value * (1 + scale.MetricMultiplier * (metric.GetMetric(visit) - 1)),
+          Fill = new Brush(Color.Indigo),
+          Outline = new Pen(Color.Transparent),
+          Opacity = CheckinPointOpacity,
+          MinVisible = scale.MinResolution,
+          MaxVisible = scale.MaxResolution
+        }
+      );
   }
 }

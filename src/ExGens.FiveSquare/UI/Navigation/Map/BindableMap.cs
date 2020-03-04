@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Windows;
 using ExGens.FiveSquare.Domain;
-using ExGens.FiveSquare.Services;
 using Mapsui.Layers;
-using Mapsui.Projection;
 using Mapsui.UI.Wpf;
-using Point = Mapsui.Geometries.Point;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
@@ -63,14 +60,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     {
       if (d is BindableMap map && e.NewValue is Coordinates location)
       {
-        map.ChangeLocation(location);
+        map.Navigator.CenterOn(location.ToMercator());
       }
-    }
-
-    private void ChangeLocation(Coordinates location)
-    {
-      var coordinate = SphericalMercator.FromLonLat(location.Longitude, location.Latitude);
-      Navigator.CenterOn(coordinate);
     }
 
     #endregion

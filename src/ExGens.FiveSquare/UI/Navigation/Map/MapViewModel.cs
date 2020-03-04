@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Services;
 using Mapsui.Layers;
@@ -18,17 +17,15 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     public Coordinates Location
     {
-      get => _location;
-      set => OnPropertyChanged(ref _location, value);
+      get => m_location;
+      set => OnPropertyChanged(ref m_location, value);
     }
 
-    private readonly FiveSquareServices m_services;
     private IEnumerable<ILayer> m_layers;
-    private Coordinates _location;
+    private Coordinates m_location;
 
     public MapViewModel(FiveSquareServices services)
     {
-      m_services = services;
       var layerFactory = new LayerFactory(LayerSettings.Default);
 
       User = services.FiveSquare.User;
@@ -36,7 +33,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       Layers = new ILayer[]
       {
         layerFactory.Map(),
-        layerFactory.Checkins(m_services.FiveSquare.GetVisits())
+        layerFactory.Checkins(services.FiveSquare.GetVisits())
       };
     }
   }

@@ -208,12 +208,15 @@
     <Compile Include="UI\Navigation\Map\BindableMap.cs" />
     <Compile Include="UI\Navigation\Map\IVisitMetric.cs" />
     <Compile Include="UI\Navigation\Map\LayerFactory.cs" />
+    <Compile Include="UI\Navigation\Map\LayerSettings.cs" />
     <Compile Include="UI\Navigation\Map\LogVisitCountMetric.cs" />
+    <Compile Include="UI\Navigation\Map\MapsuiMapper.cs" />
     <Compile Include="UI\Navigation\Map\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Navigation\Map\MapMode.cs" />
     <Compile Include="UI\Navigation\Map\MapViewModel.cs" />
+    <Compile Include="UI\Navigation\Map\PointScale.cs" />
     <Compile Include="UI\Navigation\ModeDataTemplateSelector.cs" />
     <Compile Include="UI\Navigation\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>

@@ -1,48 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BruTile.Predefined;
 using ExGens.FiveSquare.Domain;
 using Mapsui.Layers;
-using Mapsui.Projection;
 using Mapsui.Providers;
 using Mapsui.Styles;
-using Mapsui.Utilities;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
-  internal static class LayerFactory
+  internal sealed class LayerFactory
   {
-    public static ILayer Map() => OpenStreetMap.CreateTileLayer();
+    private readonly LayerSettings m_settings;
 
-    public static ILayer Checkins(IEnumerable<Visit> visits, IVisitMetric metric = null)
+    public LayerFactory(LayerSettings settings)
     {
-      metric = metric ?? new LogVisitCountMetric(visits, 0.25f);
+      m_settings = settings;
+    }
+
+    public ILayer Map() 
+      => new TileLayer(KnownTileSources.Create(m_settings.TileSource));
+
+    public ILayer Checkins(IReadOnlyCollection<Visit> visits)
+    {
+      var metric = new LogVisitCountMetric(visits, m_settings.CheckinPointMultiplier);
 
       return new MemoryLayer
       {
-        Name = "Points",
-        IsMapInfoLayer=true,
-        DataSource = new MemoryProvider(visits.Select(ToFeature)),
-        Style = new SymbolStyle{ Opacity = 0 }
-      };
-
-      IFeature ToFeature(Visit visit)
-        => new Feature
+        Name = "Checkins",
+        IsMapInfoLayer = true,
+        Style = new SymbolStyle{ Opacity = 0 },
+        DataSource = new MemoryProvider(visits.Select(visit => new Feature
         {
-          Geometry = SphericalMercator.FromLonLat(
-            visit.Location.Longitude, 
-            visit.Location.Latitude), 
-
-          Styles = new []
-          {
-            new SymbolStyle
-            {
-              SymbolScale = 1.2f * metric.GetMetric(visit),
-              Fill = new Brush(Color.Indigo), 
-              Outline = new Pen(Color.Transparent),
-              Opacity = 0.7f
-            }
-          }
-        };
+          Styles = m_settings.GetStyles(visit, metric).ToArray(),
+          Geometry = visit.Location.ToMercator(), 
+        }))
+      };
     }
   }
 }

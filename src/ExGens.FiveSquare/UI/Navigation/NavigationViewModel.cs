@@ -4,6 +4,7 @@ using System.Linq;
 using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Auth;
 using ExGens.FiveSquare.UI.Navigation.Map;
+using ExGens.FiveSquare.UI.Navigation.Stats;
 
 namespace ExGens.FiveSquare.UI.Navigation
 {
@@ -13,6 +14,7 @@ namespace ExGens.FiveSquare.UI.Navigation
     public IReadOnlyList<IModeFactory> Modes { get; } = new IModeFactory[]
     {
       new MapMode(),
+      new StatsMode(),
       new AuthMode(), 
     };
 

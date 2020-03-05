@@ -126,4 +126,19 @@
   <data name="Map_Title" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="StatsView_CatByPlacesTitle" xml:space="preserve">
+    <value>Places</value>
+  </data>
+  <data name="StatsView_CatByVisitsTitle" xml:space="preserve">
+    <value>Visits</value>
+  </data>
+  <data name="StatsView_Places" xml:space="preserve">
+    <value>Places</value>
+  </data>
+  <data name="StatsView_Title" xml:space="preserve">
+    <value>Stats</value>
+  </data>
+  <data name="StatsView_Visits" xml:space="preserve">
+    <value>Visits</value>
+  </data>
 </root>

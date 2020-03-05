@@ -33,14 +33,11 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       User = services.FiveSquare.User;
       Layers = m_factory.Layers;
 
-      var categories =
-        from visit in services.FiveSquare.GetVisits()
-        from category in visit.Venue.Categories
-        group visit by category;
+      var categoryStats = CategoryStats.FromVisits(services.FiveSquare.GetVisits());
 
-      foreach (var category in categories.OrderByDescending(_ => _.Sum(v => v.Times)).ThenBy(_ => _.Key.Name))
+      foreach (var category in categoryStats.OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name))
       {
-        Categories.Add(new CategoryModel(category.Key, category.Sum(v => v.Times)));
+        Categories.Add(new CategoryModel(category.Category, category.Visits));
       }
 
       Categories.ListChanged += CategoriesChanged;

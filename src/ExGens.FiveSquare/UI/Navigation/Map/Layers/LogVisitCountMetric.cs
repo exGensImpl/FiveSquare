@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ExGens.FiveSquare.Domain;
 
-namespace ExGens.FiveSquare.UI.Navigation.Map
+namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 {
   internal sealed class LogVisitCountMetric : IVisitMetric
   {
@@ -13,7 +13,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     public LogVisitCountMetric(IEnumerable<Visit> visits, float maxMultiplier = 0.3f )
     {
       m_maxMultiplier = maxMultiplier;
-      m_maxVisitTimes = (float)Math.Log(visits.Max(_ => _.Times));
+      m_maxVisitTimes = (float)Math.Log(visits.Max(_ => _.Times) + 1);
     }
 
     public float GetMetric(Visit visit)

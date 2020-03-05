@@ -120,6 +120,9 @@
   <data name="MainView_Title" xml:space="preserve">
     <value>FiveSquare</value>
   </data>
+  <data name="MainView_UncheckAllCategories" xml:space="preserve">
+    <value>Uncheck all</value>
+  </data>
   <data name="Map_Title" xml:space="preserve">
     <value>Map</value>
   </data>

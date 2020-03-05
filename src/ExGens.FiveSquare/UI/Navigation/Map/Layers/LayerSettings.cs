@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BruTile.Predefined;
 using ExGens.FiveSquare.Domain;
 using Mapsui.Styles;
 
-namespace ExGens.FiveSquare.UI.Navigation.Map
+namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 {
   internal sealed class LayerSettings
   {

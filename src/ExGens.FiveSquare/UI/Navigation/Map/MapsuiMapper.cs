@@ -1,6 +1,9 @@
-﻿using ExGens.FiveSquare.Domain;
+﻿using System.Collections.Generic;
+using ExGens.FiveSquare.Domain;
 using Mapsui.Geometries;
 using Mapsui.Projection;
+using Mapsui.Providers;
+using Mapsui.Styles;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
@@ -10,5 +13,13 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       => SphericalMercator.FromLonLat(
         coordinates.Longitude,
         coordinates.Latitude);
+    
+    public static IFeature ToFeature(this Visit visit, ICollection<IStyle> styles)
+      => new Feature
+      {
+        Styles = styles,
+        Geometry = visit.Venue.Location.ToMercator(),
+        ["name"] = visit.Venue.Name
+      };
   }
 }

@@ -28,8 +28,6 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
       map.Home = n => n.ZoomTo(map.Resolutions[12]);
       
-      map.Widgets.Add(new Mapsui.Widgets.Zoom.ZoomInOutWidget { Size = 25, MarginX = 20, MarginY = 40 });
-      
       return map;
     }
   }

@@ -10,14 +10,16 @@ namespace ExGens.FiveSquare.Services
   internal sealed class FiveSquare
   {
     private readonly SharpSquare m_client;
+    private Person? m_userCache;
+    private IReadOnlyList<Visit> m_visitCache;
 
-    public Person User => GetCurrentUserInfo();
+    public Person User => m_userCache ?? (m_userCache = GetCurrentUserInfo()).Value;
     
     public IReadOnlyList<Visit> GetVisits()
     {
       try
       {
-        return m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
+        return m_visitCache ?? (m_visitCache = m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray());
       }
       catch(WebException)
       {
@@ -28,6 +30,12 @@ namespace ExGens.FiveSquare.Services
     public FiveSquare(SharpSquare client)
     {
       m_client = client;
+    }
+
+    public void ResetCaches()
+    {
+      m_userCache = null;
+      m_visitCache = null;
     }
 
     private Person GetCurrentUserInfo()

@@ -21,11 +21,11 @@
                  ItemsSource="{Binding Categories}">
           <ListBox.ItemTemplate>
             <HierarchicalDataTemplate>
-              <CheckBox Content="{Binding Category.Name}" IsChecked="{Binding Selected}"/>
+              <CheckBox Content="{Binding}" IsChecked="{Binding Selected}"/>
             </HierarchicalDataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
       </DockPanel>
-      <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding Location, UpdateSourceTrigger=PropertyChanged}"/> 
+      <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding User.Home, UpdateSourceTrigger=PropertyChanged}"/> 
     </DockPanel>
 </UserControl>

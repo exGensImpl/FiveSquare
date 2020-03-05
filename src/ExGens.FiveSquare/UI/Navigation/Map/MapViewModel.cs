@@ -18,16 +18,9 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     public IEnumerable<ILayer> Layers { get; }
 
-    public Coordinates Location
-    {
-      get => m_location;
-      set => OnPropertyChanged(ref m_location, value);
-    }
-
     public BindingList<CategoryModel> Categories { get; } = new BindingList<CategoryModel>();
 
     private readonly FiveSquareServices m_services;
-    private Coordinates m_location;
     private readonly LayerFactory m_factory;
 
     public MapViewModel(FiveSquareServices services)
@@ -38,14 +31,16 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       m_factory = new LayerFactory(LayerSettings.Default);
 
       User = services.FiveSquare.User;
-      Location = User.Home;
       Layers = m_factory.Layers;
-      
-      var chekins = services.FiveSquare.GetVisits();
 
-      foreach (var category in chekins.SelectMany(_ => _.Venue.Categories).Distinct())
+      var categories =
+        from visit in services.FiveSquare.GetVisits()
+        from category in visit.Venue.Categories
+        group visit by category;
+
+      foreach (var category in categories.OrderByDescending(_ => _.Sum(v => v.Times)).ThenBy(_ => _.Key.Name))
       {
-        Categories.Add(new CategoryModel(category));
+        Categories.Add(new CategoryModel(category.Key, category.Sum(v => v.Times)));
       }
 
       Categories.ListChanged += CategoriesChanged;
@@ -67,15 +62,15 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     private void UpdateCheckins()
     {
-      var selectedCategories = Categories.Where(_ => _.Selected)
-        .Select(_ => _.Category)
-        .ToArray();
+      var selectedCategories = Categories.Where(_ => _.Selected).Select(_ => _.Category);
+      
+      var checkinsToShow = 
+        from visit in m_services.FiveSquare.GetVisits()
+        from category in selectedCategories
+        where visit.Venue.Categories.Contains(category)
+        select visit;
 
-      var checkinsToShow = m_services.FiveSquare.GetVisits()
-        .Where(_ => _.Venue.Categories.Intersect(selectedCategories).Any())
-        .ToArray();
-
-      m_factory.UpdateCheckins(checkinsToShow);
+      m_factory.UpdateCheckins(checkinsToShow.ToArray( ));
     }
   }
 }

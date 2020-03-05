@@ -8,9 +8,12 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     public Category Category { get; }
 
-    public CategoryModel(Category category)
+    public int Visits { get; }
+
+    public CategoryModel(Category category, int visits)
     {
       Category = category;
+      Visits = visits;
       Selected = true;
     }
 
@@ -19,5 +22,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       get => m_selected;
       set => OnPropertyChanged(ref m_selected, value);
     }
+
+    /// <inheritdoc />
+    public override string ToString() => $"{Category.Name} ({Visits})";
   }
 }

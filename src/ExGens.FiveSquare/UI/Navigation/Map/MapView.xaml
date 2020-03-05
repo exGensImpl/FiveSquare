@@ -5,11 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ExGens.FiveSquare.UI.Navigation.Map"
              mc:Ignorable="d" 
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="ru"
+             lex:ResxLocalizationProvider.DefaultAssembly="ExGens.FiveSquare"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:MapViewModel}"
              DataContext="{DynamicResource VM}">
     <DockPanel>
       <Label DockPanel.Dock="Top" Content="{Binding User.Name}" FontSize="24" ContentStringFormat="Map of {0} checkins"/>
+      <DockPanel DockPanel.Dock="Right">
+        <Button DockPanel.Dock="Top" Content="{lex:Loc MainView_UncheckAllCategories}" 
+                Command="{Binding UncheckAllCategories}"/>
+        <ListBox BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                 ItemsSource="{Binding Categories}">
+          <ListBox.ItemTemplate>
+            <HierarchicalDataTemplate>
+              <CheckBox Content="{Binding Category.Name}" IsChecked="{Binding Selected}"/>
+            </HierarchicalDataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </DockPanel>
       <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding Location, UpdateSourceTrigger=PropertyChanged}"/> 
     </DockPanel>
 </UserControl>

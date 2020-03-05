@@ -70,6 +70,15 @@ namespace ExGens.FiveSquare.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Uncheck all.
+        /// </summary>
+        public static string MainView_UncheckAllCategories {
+            get {
+                return ResourceManager.GetString("MainView_UncheckAllCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Map.
         /// </summary>
         public static string Map_Title {

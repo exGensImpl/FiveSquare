@@ -1,4 +1,4 @@
-﻿namespace ExGens.FiveSquare.UI.Navigation.Map
+﻿namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 {
   internal readonly struct PointScale
   {

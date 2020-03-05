@@ -1,6 +1,6 @@
 ﻿using ExGens.FiveSquare.Domain;
 
-namespace ExGens.FiveSquare.UI.Navigation.Map
+namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 {
   internal sealed class ConstantMetric : IVisitMetric
   {

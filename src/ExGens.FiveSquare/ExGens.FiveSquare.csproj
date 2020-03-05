@@ -226,6 +226,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\Category.cs" />
+    <Compile Include="Domain\Place.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -248,18 +250,19 @@
     <Compile Include="UI\Navigation\Auth\AuthViewModel.cs" />
     <Compile Include="UI\Navigation\IModeFactory.cs" />
     <Compile Include="UI\Navigation\Map\BindableMap.cs" />
-    <Compile Include="UI\Navigation\Map\ConstantMetric.cs" />
-    <Compile Include="UI\Navigation\Map\IVisitMetric.cs" />
-    <Compile Include="UI\Navigation\Map\LayerFactory.cs" />
-    <Compile Include="UI\Navigation\Map\LayerSettings.cs" />
-    <Compile Include="UI\Navigation\Map\LogVisitCountMetric.cs" />
+    <Compile Include="UI\Navigation\Map\CategoryModel.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\ConstantMetric.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\IVisitMetric.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\LayerFactory.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\LayerSettings.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\LogVisitCountMetric.cs" />
     <Compile Include="UI\Navigation\Map\MapsuiMapper.cs" />
     <Compile Include="UI\Navigation\Map\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Navigation\Map\MapMode.cs" />
     <Compile Include="UI\Navigation\Map\MapViewModel.cs" />
-    <Compile Include="UI\Navigation\Map\PointScale.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\PointScale.cs" />
     <Compile Include="UI\Navigation\ModeDataTemplateSelector.cs" />
     <Compile Include="UI\Navigation\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
@@ -269,6 +272,7 @@
     <Compile Include="UI\Navigation\Test\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\NotifyPropertyChangedTrait.cs" />
     <Compile Include="UI\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

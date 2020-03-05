@@ -3,27 +3,27 @@
 namespace ExGens.FiveSquare.Domain
 {
   /// <summary>
-  /// Represents an amount of visits of the specified location
+  /// Represents an amount of visits of the specified venue
   /// </summary>
   internal readonly struct Visit
   {
     /// <summary>
-    /// Location of the visited place
+    /// Venue which has been visited
     /// </summary>
-    public Coordinates Location { get; }
+    public Place Venue { get; }
 
     /// <summary>
     /// Amount of visits
     /// </summary>
     public int Times { get; }
 
-    public Visit(Coordinates location, int times)
+    public Visit(Place venue, int times)
     {
-      Location = location;
+      Venue = venue;
       Times = times;
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"{Times} times in {Location}";
+    public override string ToString() => $"{Times} times in {Venue}";
   }
 }

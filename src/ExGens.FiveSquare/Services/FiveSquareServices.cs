@@ -4,6 +4,6 @@ namespace ExGens.FiveSquare.Services
 {
   internal sealed class FiveSquareServices
   {
-    public FiveSquare FiveSquare { get; private set; }
+    public FiveSquare FiveSquare { get; private set; } = new FiveSquare();
   }
 }

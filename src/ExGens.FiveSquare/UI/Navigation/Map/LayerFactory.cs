@@ -22,7 +22,9 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     public ILayer Checkins(IReadOnlyCollection<Visit> visits)
     {
-      var metric = new LogVisitCountMetric(visits, m_settings.CheckinPointMultiplier);
+      var metric = visits.Any()
+        ? (IVisitMetric)new LogVisitCountMetric(visits, m_settings.CheckinPointMultiplier)
+        : new ConstantMetric(1);
 
       return new MemoryLayer
       {

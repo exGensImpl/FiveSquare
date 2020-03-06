@@ -16,7 +16,11 @@
                    Text="{Binding Tag, ElementName=ChartView}"/>
         <wpf:CartesianChart Series="{Binding Values}" LegendLocation="None">
           <wpf:CartesianChart.AxisX>
-            <wpf:Axis Title="Category" Labels="{Binding Labels}"/>
+            <wpf:Axis Title="Category" Labels="{Binding Labels}" LabelsRotation="0">
+              <wpf:Axis.Separator>
+                <wpf:Separator Step="1"/>
+              </wpf:Axis.Separator>
+            </wpf:Axis>
           </wpf:CartesianChart.AxisX>
         </wpf:CartesianChart>  
       </DockPanel>    

@@ -20,10 +20,9 @@
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <local:ColumnChartView Grid.Column="0" Tag="{lex:Loc StatsView_CatByVisitsTitle}" 
-                             DataContext="{Binding CategoryByVisits}"/>
-      <local:ColumnChartView Grid.Column="1" Tag="{lex:Loc StatsView_CatByPlacesTitle}" 
-                             DataContext="{Binding CategoryByPlaces}"/>
+      <local:ColumnChartView Grid.Column="0" Grid.ColumnSpan="2" 
+                             Tag="{lex:Loc StatsView_CatByVisitsTitle}" 
+                             DataContext="{Binding Categories}"/>
 
     </Grid>
 </UserControl>

@@ -9,21 +9,14 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
 {
   internal sealed class StatsViewModel : ViewModelBase
   {
-    public ColumnChartViewModel CategoryByVisits
+    public ColumnChartViewModel Categories
     {
-      get => m_categoryByVisits;
-      set => OnPropertyChanged(ref m_categoryByVisits, value);
-    }
-
-    public ColumnChartViewModel CategoryByPlaces
-    {
-      get => m_categoryByPlaces;
-      set => OnPropertyChanged(ref m_categoryByPlaces, value);
+      get => m_categories;
+      set => OnPropertyChanged(ref m_categories, value);
     }
 
     private readonly FiveSquareServices m_services;
-    private ColumnChartViewModel m_categoryByVisits;
-    private ColumnChartViewModel m_categoryByPlaces;
+    private ColumnChartViewModel m_categories;
 
     public StatsViewModel(FiveSquareServices services)
     {
@@ -32,11 +25,11 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       var categories =
         CategoryStats.FromVisits(services.FiveSquare.GetVisits()).ToArray();
 
-      CategoryByVisits = ColumnChartViewModel.Create(
-        Resources.StatsView_Visits, categories, 15, _ => _.Visits, _ => _.Category.Name);
+      Categories = ColumnChartViewModel.Create(
+        categories, 20, _ => _.Category.Name,
+        Resources.StatsView_Visits, _ => _.Visits,
+        Resources.StatsView_Places, _ => _.Places);
 
-      CategoryByPlaces = ColumnChartViewModel.Create(
-        Resources.StatsView_Places, categories, 15, _ => _.Places, _ => _.Category.Name);
     }
   }
 }

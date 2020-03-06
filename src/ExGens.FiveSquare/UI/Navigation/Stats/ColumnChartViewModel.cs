@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LiveCharts;
+using LiveCharts.Definitions.Series;
 using LiveCharts.Wpf;
 
 namespace ExGens.FiveSquare.UI.Navigation.Stats
@@ -23,31 +24,42 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
     private IReadOnlyList<string> m_labels;
     private SeriesCollection m_values;
     
-    public ColumnChartViewModel(string title, IReadOnlyList<string> labels, IChartValues values)
+    public ColumnChartViewModel(
+      IReadOnlyList<string> labels, 
+      ISeriesView values, 
+      ISeriesView values2)
     {
       Labels = labels;
-      Values = new SeriesCollection 
-      {
-        new ColumnSeries 
-        {
-          Title = title,
-          Values = values
-        }
-      };
+      Values = new SeriesCollection { values, values2 };
     }
 
-    public static ColumnChartViewModel Create<TSource, T>(
-      string title, IEnumerable<TSource> source, int take, Func<TSource, T> valueSelector, Func<TSource, string> labelSelector)
+    public static ColumnChartViewModel Create<TSource, TValue1, TValue2>(
+      IEnumerable<TSource> source, 
+      int take, 
+      Func<TSource, string> labelSelector,
+      string primaryValueTitle, 
+      Func<TSource, TValue1> primaryValueSelector, 
+      string secondaryValueTitle, 
+      Func<TSource, TValue2> secondaryValueSelector)
     {
-      var top = source.OrderByDescending(valueSelector)
+      var primaryValues = source.OrderByDescending(primaryValueSelector)
         .Take(take)
-        .OrderBy(valueSelector)
+        .OrderBy(primaryValueSelector)
+        .ThenByDescending(labelSelector)
         .ToArray();
 
       return new ColumnChartViewModel(
-        title,
-        top.Select(labelSelector).ToArray(),
-        new ChartValues<T>(top.Select(valueSelector)));
+        primaryValues.Select(labelSelector).ToArray(),
+        new ColumnSeries
+        {
+          Title = primaryValueTitle,
+          Values = new ChartValues<TValue1>(primaryValues.Select(primaryValueSelector))
+        }, 
+        new ColumnSeries
+        {
+          Title = secondaryValueTitle,
+          Values = new ChartValues<TValue2>(primaryValues.Select(secondaryValueSelector))
+        });
     }
   }
 }

@@ -16,7 +16,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     public string Title => Resources.Map_Title;
   
     /// <inheritdoc />
-    public ViewModelBase CreateViewModel()
+    public IViewModel CreateViewModel()
     {
       return new MapViewModel( Services );
     }

@@ -126,4 +126,25 @@
   <data name="Map_Title" xml:space="preserve">
     <value>Карта</value>
   </data>
+  <data name="StatsView_CatByPlacesTitle" xml:space="preserve">
+    <value>Места</value>
+  </data>
+  <data name="StatsView_CatByVisitsTitle" xml:space="preserve">
+    <value>Посещения</value>
+  </data>
+  <data name="StatsView_Checkins" xml:space="preserve">
+    <value>Чекины</value>
+  </data>
+  <data name="StatsView_Places" xml:space="preserve">
+    <value>Мест</value>
+  </data>
+  <data name="StatsView_Title" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="StatsView_Visits" xml:space="preserve">
+    <value>Посещений</value>
+  </data>
+  <data name="StatsView_Weeks" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
 </root>

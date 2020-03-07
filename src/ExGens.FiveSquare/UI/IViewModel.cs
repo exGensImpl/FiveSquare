@@ -2,7 +2,7 @@
 
 namespace ExGens.FiveSquare.UI
 {
-  internal class ViewModelBase : NotifyPropertyChangedTrait
+  internal interface IViewModel
   {
   }
 }

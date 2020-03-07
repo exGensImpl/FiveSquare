@@ -5,7 +5,7 @@
     public static FourSquareApplicationInfo Current
       => new FourSquareApplicationInfo(
         "FXYEN3JAZUMRV4FXYGH2TZYWJ2HUDEM1ZCYTOEVIQYXXO2IO",
-        "/*privacy*/",
+        "CU50513WOO0UAR0TVV2P0GCJF0PYJAMFAKH20OARUMOKRVZV",
         "https://fakeuri");
 
     public string ClientId { get; }

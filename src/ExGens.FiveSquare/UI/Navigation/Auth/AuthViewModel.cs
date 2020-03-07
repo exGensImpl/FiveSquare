@@ -4,7 +4,7 @@ using ExGens.FiveSquare.Services;
 
 namespace ExGens.FiveSquare.UI.Navigation.Auth
 {
-  internal sealed class AuthViewModel : ViewModelBase
+  internal sealed class AuthViewModel : NotifyPropertyChangedTrait, IViewModel
   {
     public string AuthUrl { get; }
 

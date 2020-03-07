@@ -86,5 +86,68 @@ namespace ExGens.FiveSquare.Properties {
                 return ResourceManager.GetString("Map_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Places.
+        /// </summary>
+        public static string StatsView_CatByPlacesTitle {
+            get {
+                return ResourceManager.GetString("StatsView_CatByPlacesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Visits.
+        /// </summary>
+        public static string StatsView_CatByVisitsTitle {
+            get {
+                return ResourceManager.GetString("StatsView_CatByVisitsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Check-ins.
+        /// </summary>
+        public static string StatsView_Checkins {
+            get {
+                return ResourceManager.GetString("StatsView_Checkins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Places.
+        /// </summary>
+        public static string StatsView_Places {
+            get {
+                return ResourceManager.GetString("StatsView_Places", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Stats.
+        /// </summary>
+        public static string StatsView_Title {
+            get {
+                return ResourceManager.GetString("StatsView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Visits.
+        /// </summary>
+        public static string StatsView_Visits {
+            get {
+                return ResourceManager.GetString("StatsView_Visits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Weeks.
+        /// </summary>
+        public static string StatsView_Weeks {
+            get {
+                return ResourceManager.GetString("StatsView_Weeks", resourceCulture);
+            }
+        }
     }
 }

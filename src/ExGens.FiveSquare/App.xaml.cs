@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using System.Windows;
+using WPFLocalizeExtension.Engine;
 
 namespace ExGens.FiveSquare
 {
@@ -13,5 +9,9 @@ namespace ExGens.FiveSquare
   /// </summary>
   public partial class App : Application
   {
+    public App()
+    {
+      LocalizeDictionary.Instance.Culture = Thread.CurrentThread.CurrentCulture;
+    }
   }
 }

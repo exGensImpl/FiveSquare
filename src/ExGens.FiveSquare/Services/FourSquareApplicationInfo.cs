@@ -1,12 +1,17 @@
-﻿namespace ExGens.FiveSquare.Services
+﻿using System.IO;
+
+namespace ExGens.FiveSquare.Services
 {
   internal readonly struct FourSquareApplicationInfo
   {
     public static FourSquareApplicationInfo Current
-      => new FourSquareApplicationInfo(
-        "FXYEN3JAZUMRV4FXYGH2TZYWJ2HUDEM1ZCYTOEVIQYXXO2IO",
-        "/*privacy*/",
-        "https://fakeuri");
+    {
+      get
+      {
+        var data = File.ReadAllLines("key");
+        return new FourSquareApplicationInfo(data[0], data[1], data[2]);
+      }
+    }
 
     public string ClientId { get; }
     public string ClientSecret { get; }

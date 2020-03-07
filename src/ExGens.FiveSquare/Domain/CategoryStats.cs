@@ -25,5 +25,10 @@ namespace ExGens.FiveSquare.Domain
 
       return categories.Select(_ => new CategoryStats(_.Key, _.Count(), _.Sum(v => v.Times)));
     }
+
+    public static IEnumerable<CategoryStats> FromCheckins(IEnumerable<Checkin> checkins)
+    {
+      return FromVisits(checkins.GroupBy(_ => _.Location).Select(_ => new Visit(_.Key, _.Count())));
+    }
   }
 }

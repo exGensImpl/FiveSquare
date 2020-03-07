@@ -70,8 +70,12 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
           });
       
       var chekins = services.FiveSquare.GetCheckins();
-      m_start = FirstCheckin = chekins.Last().Date;
-      m_end = LastCheckin = chekins.First().Date;
+
+      if (chekins.Any())
+      {
+        Start = FirstCheckin = chekins.Last().Date;
+        End = LastCheckin = chekins.First().Date;
+      }
     }
 
     private Stats RecalcStats(DateTime start, DateTime end)

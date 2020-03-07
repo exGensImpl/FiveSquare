@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using FourSquare.SharpSquare.Core;
 
 namespace ExGens.FiveSquare.Services
@@ -13,11 +14,18 @@ namespace ExGens.FiveSquare.Services
       m_client = client;
       m_redirect = redirect;
     }
-    
+
     /// <inheritdoc />
     public string GetAuthUri()
     {
-      return m_client.GetAuthenticateUrl(m_redirect);
+      try
+      {
+        return m_client.GetAuthenticateUrl(m_redirect);
+      }
+      catch (WebException error)
+      {
+        throw new AuthorizationException("Cannot get authentication URL", error);
+      }
     }
 
     /// <inheritdoc />
@@ -27,12 +35,19 @@ namespace ExGens.FiveSquare.Services
       {
         return false;
       }
-      
-      var i = url.LastIndexOf("?code=", StringComparison.InvariantCultureIgnoreCase) + 6;
-      var code = url.Substring(i, url.Length - i);
-      var token = m_client.GetAccessToken(m_redirect, code);
-      m_client.SetAccessToken(token);
-      return true;
+
+      try
+      {
+        var i = url.LastIndexOf("?code=", StringComparison.InvariantCultureIgnoreCase) + 6;
+        var code = url.Substring(i, url.Length - i);
+        var token = m_client.GetAccessToken(m_redirect, code);
+        m_client.SetAccessToken(token);
+        return true;
+      }
+      catch (WebException error)
+      {
+        throw new AuthorizationException("Cannot get or set an access token", error);
+      }
     }
   }
 }

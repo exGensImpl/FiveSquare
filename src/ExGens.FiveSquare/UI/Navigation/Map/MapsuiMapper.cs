@@ -18,7 +18,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       => new Feature
       {
         Styles = styles,
-        Geometry = visit.Venue.Location.ToMercator(),
+        Geometry = visit.Venue.Address.Location.ToMercator(),
         ["name"] = visit.Venue.Name
       };
   }

@@ -208,6 +208,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\CategoryStats.cs" />
     <Compile Include="Domain\Checkin.cs" />
@@ -261,6 +262,7 @@
       <DependentUpon>StatsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Navigation\Stats\StatsViewModel.cs" />
+    <Compile Include="Domain\Week.cs" />
     <Compile Include="UI\Navigation\Test\TestMode.cs" />
     <Compile Include="UI\Navigation\Test\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>

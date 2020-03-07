@@ -14,6 +14,13 @@ namespace ExGens.FiveSquare.Services
     public IReadOnlyList<Visit> GetVisits()
       => m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
 
+    public IReadOnlyList<Checkin> GetCheckins() 
+      => m_client.GetUserCheckins(
+                    "self",
+                    new Dictionary<string, string>{ ["limit"] = "250" })
+                 .Select(_ => _.ToCheckin())
+                 .ToArray();
+
     public FiveSquare(SharpSquare client)
     {
       m_client = client;

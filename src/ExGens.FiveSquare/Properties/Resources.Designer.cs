@@ -106,6 +106,15 @@ namespace ExGens.FiveSquare.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Check-ins.
+        /// </summary>
+        public static string StatsView_Checkins {
+            get {
+                return ResourceManager.GetString("StatsView_Checkins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Places.
         /// </summary>
         public static string StatsView_Places {
@@ -129,6 +138,15 @@ namespace ExGens.FiveSquare.Properties {
         public static string StatsView_Visits {
             get {
                 return ResourceManager.GetString("StatsView_Visits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Weeks.
+        /// </summary>
+        public static string StatsView_Weeks {
+            get {
+                return ResourceManager.GetString("StatsView_Weeks", resourceCulture);
             }
         }
     }

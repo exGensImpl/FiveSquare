@@ -13,19 +13,19 @@ namespace ExGens.FiveSquare.Domain
     public string Name { get; }
 
     /// <summary>
-    /// The place location
+    /// The place address
     /// </summary>
-    public Coordinates Location { get; }
+    public Address Address { get; }
 
     /// <summary>
     /// Categories that the place belongs to
     /// </summary>
     public IReadOnlyCollection<Category> Categories { get; }
 
-    public Place(string name, Coordinates location, IReadOnlyCollection<Category> categories)
+    public Place(string name, Address address, IReadOnlyCollection<Category> categories)
     {
       Name = name;
-      Location = location;
+      Address = address;
       Categories = categories;
     }
 

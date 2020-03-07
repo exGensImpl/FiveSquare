@@ -22,6 +22,7 @@ namespace ExGens.FiveSquare.Services
 
     public static Place ToPlace(this Venue venue)
       => new Place(
+        venue.id,
         venue.name, 
         venue.location.ToAddress(), 
         venue.categories.Select(ToCategory).ToArray());

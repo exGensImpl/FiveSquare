@@ -11,6 +11,6 @@ namespace ExGens.FiveSquare.UI.Navigation
 
     FiveSquareServices Services { set; }
 
-    ViewModelBase CreateViewModel();
+    IViewModel CreateViewModel();
   }
 }

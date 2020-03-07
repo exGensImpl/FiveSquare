@@ -20,7 +20,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Test
     public string Title { get; }
   
     /// <inheritdoc />
-    public ViewModelBase CreateViewModel()
+    public IViewModel CreateViewModel()
     {
       return null;
     }

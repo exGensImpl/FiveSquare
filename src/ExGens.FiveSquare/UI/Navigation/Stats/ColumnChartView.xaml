@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ExGens.FiveSquare.UI.Navigation.Stats"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:liveCharts="clr-namespace:LiveCharts;assembly=LiveCharts"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:ColumnChartViewModel}"
@@ -14,7 +15,7 @@
       <DockPanel Margin="5">
         <TextBlock DockPanel.Dock="Top" FontSize="24" TextAlignment="Center"
                    Text="{Binding Tag, ElementName=ChartView}"/>
-        <wpf:CartesianChart Series="{Binding Values}" LegendLocation="None">
+        <wpf:CartesianChart LegendLocation="None">
           <wpf:CartesianChart.AxisX>
             <wpf:Axis Title="Category" Labels="{Binding Labels}" LabelsRotation="0">
               <wpf:Axis.Separator>
@@ -22,6 +23,12 @@
               </wpf:Axis.Separator>
             </wpf:Axis>
           </wpf:CartesianChart.AxisX>
+          <wpf:CartesianChart.Series>
+            <liveCharts:SeriesCollection >
+              <wpf:ColumnSeries Title="{Binding [0].Item1}" Values="{Binding [0].Item2}"/>
+              <wpf:ColumnSeries Title="{Binding [1].Item1}" Values="{Binding [1].Item2}"/>
+            </liveCharts:SeriesCollection>
+          </wpf:CartesianChart.Series>
         </wpf:CartesianChart>  
       </DockPanel>    
     </Grid>

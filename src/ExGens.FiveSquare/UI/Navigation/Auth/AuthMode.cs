@@ -19,7 +19,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Auth
     public FiveSquareServices Services { get; set; }
 
     /// <inheritdoc />
-    public ViewModelBase CreateViewModel()
+    public IViewModel CreateViewModel()
     {
       return new AuthViewModel(Services);
     }

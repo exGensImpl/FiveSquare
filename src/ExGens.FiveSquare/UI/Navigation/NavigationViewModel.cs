@@ -8,7 +8,7 @@ using ExGens.FiveSquare.UI.Navigation.Stats;
 
 namespace ExGens.FiveSquare.UI.Navigation
 {
-  internal sealed class NavigationViewModel : ViewModelBase
+  internal sealed class NavigationViewModel : NotifyPropertyChangedTrait, IViewModel
   {
 
     public IReadOnlyList<IModeFactory> Modes { get; } = new IModeFactory[]
@@ -20,11 +20,11 @@ namespace ExGens.FiveSquare.UI.Navigation
 
     public IModeFactory SelectedMode
     {
-      get => _selectedMode;
-      set => OnPropertyChanged(ref _selectedMode, value);
+      get => m_selectedMode;
+      set => OnPropertyChanged(ref m_selectedMode, value);
     }
 
-    private IModeFactory _selectedMode;
+    private IModeFactory m_selectedMode;
 
     public NavigationViewModel()
     {

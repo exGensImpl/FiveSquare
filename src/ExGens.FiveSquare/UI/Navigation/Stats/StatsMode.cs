@@ -16,7 +16,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
     public FiveSquareServices Services { get; set; }
 
     /// <inheritdoc />
-    public ViewModelBase CreateViewModel()
+    public IViewModel CreateViewModel()
     {
       return new StatsViewModel(Services);
     }

@@ -10,7 +10,7 @@ using Microsoft.Expression.Interactivity.Core;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
-  internal sealed class MapViewModel : ViewModelBase
+  internal sealed class MapViewModel : NotifyPropertyChangedTrait, IViewModel
   {
     public ICommand UncheckAllCategories { get; }
 

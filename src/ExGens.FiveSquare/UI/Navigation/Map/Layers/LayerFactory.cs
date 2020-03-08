@@ -35,6 +35,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 
       var checkinList = new List<Visit>();
 
+      chekinProvider.Clear();
+
       source.Buffer(200).Subscribe(checkins =>
       {
         checkinList.AddRange(checkins);
@@ -42,6 +44,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
         chekinProvider.ReplaceFeatures(ToFeatures(checkinList, metric));
         layer.DataHasChanged();
       });
+
+      layer.DataHasChanged();
     }
 
     private ILayer Map() 

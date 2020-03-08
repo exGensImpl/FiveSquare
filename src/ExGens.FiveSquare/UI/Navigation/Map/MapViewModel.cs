@@ -47,7 +47,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     private void DoUncheckAllCategories()
     {
       Categories.ListChanged -= CategoriesChanged;
-      Categories.Foreach(_ => _.Selected = true);
+      Categories.Foreach(_ => _.Selected = false);
       Categories.ListChanged += CategoriesChanged;
 
       UpdateCheckins();

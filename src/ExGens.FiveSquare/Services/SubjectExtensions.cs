@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
+using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Infrastructure;
 
 namespace ExGens.FiveSquare.Services
@@ -36,5 +40,22 @@ namespace ExGens.FiveSquare.Services
       }
     }
 
+    public static IObservable<T> ColdObservable<T>(Func<IEnumerable<T>> func)
+    {
+      return Observable.Create<T>(o =>
+      {
+        Task.Run(() => o.CatchAndEmitAll(func));
+        return Disposable.Empty;
+      });
+    }
+
+    public static IObservable<T> ColdObservable<T>(Action<IObserver<T>> action)
+    {
+      return Observable.Create<T>(o =>
+      {
+        Task.Run(() => action(o));
+        return Disposable.Empty;
+      });
+    }
   }
 }

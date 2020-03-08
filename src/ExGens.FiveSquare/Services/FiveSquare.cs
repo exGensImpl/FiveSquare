@@ -27,25 +27,13 @@ namespace ExGens.FiveSquare.Services
     }
 
     public IObservable<Visit> GetVisits()
-    {
-      return Observable.Create<Visit>(o =>
-      {
-        Task.Run(() => o.CatchAndEmitAll(() => m_visitCache ?? (m_visitCache = RequestVisits())));
-        return Disposable.Empty;
-      });
-    }
+      => SubjectExtensions.ColdObservable(() => m_visitCache ?? (m_visitCache = RequestVisits()));
 
     private Visit[] RequestVisits()
       => m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
 
     public IObservable<Checkin> GetCheckins()
-    {
-      return Observable.Create<Checkin>(o =>
-      {
-        Task.Run(() => EmitCheckins(o));
-        return Disposable.Empty;
-      });
-    }
+      => SubjectExtensions.ColdObservable<Checkin>(EmitCheckins);
 
     private void EmitCheckins(IObserver<Checkin> subject)
     {

@@ -279,6 +279,7 @@
     </Compile>
     <Compile Include="UI\Navigation\NavigationViewModel.cs" />
     <Compile Include="UI\Navigation\Stats\DateTimeDoubleConverter.cs" />
+    <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="UI\Navigation\Stats\DoubleToDateTimeStringConverter.cs" />
     <Compile Include="UI\Navigation\Stats\RangeSlider.xaml.cs">
       <DependentUpon>RangeSlider.xaml</DependentUpon>

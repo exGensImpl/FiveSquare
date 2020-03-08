@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using ExGens.FiveSquare.Domain;
+using ExGens.FiveSquare.Infrastructure;
 using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Map.Layers;
 using Mapsui.Layers;
@@ -34,12 +35,10 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       User = services.FiveSquare.User;
       Layers = m_factory.Layers;
 
-      var categoryStats = CategoryStats.FromVisits(services.FiveSquare.GetVisits().ToEnumerable());
-
-      foreach (var category in categoryStats.OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name))
-      {
-        Categories.Add(new CategoryModel(category.Category, category.Visits));
-      }
+      CategoryStats.FromVisits(services.FiveSquare.GetVisits().ToEnumerable())
+                   .OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name)
+                   .Select(_ => new CategoryModel(_.Category, _.Visits))
+                   .Foreach(Categories.Add);
 
       Categories.ListChanged += CategoriesChanged;
       UpdateCheckins();
@@ -48,11 +47,9 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     private void DoUncheckAllCategories()
     {
       Categories.ListChanged -= CategoriesChanged;
-      foreach (var category in Categories)
-      {
-        category.Selected = false;
-      }
+      Categories.Foreach(_ => _.Selected = true);
       Categories.ListChanged += CategoriesChanged;
+
       UpdateCheckins();
     }
 

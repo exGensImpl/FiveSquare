@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ExGens.FiveSquare.Infrastructure;
 
 namespace ExGens.FiveSquare.Services
 {
@@ -18,10 +19,7 @@ namespace ExGens.FiveSquare.Services
 
     public static void EmitAll<T>(this IObserver<T> subject, IEnumerable<T> source)
     {
-      foreach (var item in source)
-      {
-        subject.OnNext(item);
-      }
+      source.Foreach(subject.OnNext);
       subject.OnCompleted();
     }
 

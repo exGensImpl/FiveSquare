@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using ExGens.FiveSquare.Domain;
+using ExGens.FiveSquare.Infrastructure;
 using Mapsui.Layers;
 using Mapsui.UI.Wpf;
 
@@ -34,10 +35,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     private void ChangeLayers(IEnumerable<ILayer> layers)
     {
       Map.Layers.Clear();
-      foreach (var layer in layers)
-      {
-        Map.Layers.Add(layer);
-      }
+      layers.Foreach(Map.Layers.Add);
     }
 
     #endregion

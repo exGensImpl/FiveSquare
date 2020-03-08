@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExGens.FiveSquare.Infrastructure;
 using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Auth;
 using ExGens.FiveSquare.UI.Navigation.Map;
@@ -29,12 +30,7 @@ namespace ExGens.FiveSquare.UI.Navigation
     public NavigationViewModel()
     {
       var services = new FiveSquareServices(() => SelectedMode = Modes[0]);
-
-      foreach (var mode in Modes)
-      {
-        mode.Services = services;
-      }
-
+      Modes.Foreach(_ => _.Services = services);
       SelectedMode = Modes.OfType<AuthMode>().Single();
     }
   }

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ExGens.FiveSquare.UI.Navigation.Stats"
-             xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:liveCharts="clr-namespace:LiveCharts;assembly=LiveCharts"
              mc:Ignorable="d" 
@@ -24,10 +23,7 @@
             </wpf:Axis>
           </wpf:CartesianChart.AxisX>
           <wpf:CartesianChart.Series>
-            <liveCharts:SeriesCollection >
-              <wpf:ColumnSeries Title="{Binding [0].Item1}" Values="{Binding [0].Item2}"/>
-              <wpf:ColumnSeries Title="{Binding [1].Item1}" Values="{Binding [1].Item2}"/>
-            </liveCharts:SeriesCollection>
+            <liveCharts:SeriesCollection x:Name="SeriesCollection"/>
           </wpf:CartesianChart.Series>
         </wpf:CartesianChart>  
       </DockPanel>    

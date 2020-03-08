@@ -9,6 +9,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
   {
     public Tuple<string, IChartValues> this[int index] => m_values[index];
 
+    public int Values => m_values.Length;
+
     public IReadOnlyList<string> Labels
     {
       get => m_labels;

@@ -39,7 +39,7 @@
           <wpf:Axis Title="{lex:Loc StatsView_Weeks}" Labels="{Binding WeekLabels}"/>
         </wpf:CartesianChart.AxisX>
         <wpf:CartesianChart.Series>
-          <wpf:LineSeries Title="{lex:Loc Resources.StatsView_Checkins}"/>
+          <wpf:LineSeries Title="{lex:Loc Resources.StatsView_Checkins}" Values="{Binding CheckinsByWeek}"/>
         </wpf:CartesianChart.Series>
       </wpf:CartesianChart>
 

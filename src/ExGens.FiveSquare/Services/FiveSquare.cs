@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using ExGens.FiveSquare.Domain;
 using FourSquare.SharpSquare.Core;
 
@@ -12,7 +16,7 @@ namespace ExGens.FiveSquare.Services
     private readonly SharpSquare m_client;
     private Person? m_userCache;
     private IReadOnlyList<Visit> m_visitCache;
-    private IReadOnlyList<Checkin> m_checkinCache;
+    private readonly Dictionary<long,Checkin[]> m_checkinCache = new Dictionary<long, Checkin[]>();
 
     public Person User => m_userCache ?? (m_userCache = GetCurrentUserInfo()).Value;
     
@@ -21,60 +25,72 @@ namespace ExGens.FiveSquare.Services
     {
       m_client = client;
     }
-    public IReadOnlyList<Visit> GetVisits()
+
+    public IObservable<Visit> GetVisits()
     {
-      try
+      return Observable.Create<Visit>(o =>
       {
-        return m_visitCache ?? (m_visitCache = m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray());
-      }
-      catch(WebException)
-      {
-        return Array.Empty<Visit>();
-      }
+        Task.Run(() => o.CatchAndEmitAll(() => m_visitCache ?? (m_visitCache = RequestVisits())));
+        return Disposable.Empty;
+      });
     }
 
-    public IReadOnlyList<Checkin> GetCheckins()
+    private Visit[] RequestVisits()
+      => m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
+
+    public IObservable<Checkin> GetCheckins()
     {
-      try
+      return Observable.Create<Checkin>(o =>
       {
-        return m_checkinCache ?? (m_checkinCache = RequestCheckins().ToArray());
-      }
-      catch (WebException)
-      {
-        return Array.Empty<Checkin>();
-      }
+        Task.Run(() => EmitCheckins(o));
+        return Disposable.Empty;
+      });
     }
 
-    private IEnumerable<Checkin> RequestCheckins()
+    private void EmitCheckins(IObserver<Checkin> subject)
     {
-      var batch = 250;
+      var limit = 250;
       var offset = 0;
-      List<FourSquare.SharpSquare.Entities.Checkin> checkins;
-      do
+
+      while(true)
       {
-        checkins = m_client.GetUserCheckins(
+        if (m_checkinCache.ContainsKey(offset) == false)
+        {
+          var (_, success) = subject.Catch(
+            () => m_checkinCache[offset] = RequestCheckins(offset, limit).Select(_ => _.ToCheckin()).ToArray()
+          );
+
+          if (success == false)
+          {
+            return;
+          }
+        }
+        
+        subject.EmitAll(m_checkinCache[offset]);
+
+        if (m_checkinCache[offset].Length == 0)
+        {
+          return;
+        }
+
+        offset += m_checkinCache[offset].Length;
+      }
+
+      List<FourSquare.SharpSquare.Entities.Checkin> RequestCheckins(int skip, int batch)
+        => m_client.GetUserCheckins(
           "self",
           new Dictionary<string, string>
           {
             ["limit"] = batch.ToString(),
-            ["offset"] = offset.ToString()
+            ["offset"] = skip.ToString()
           });
-
-        foreach (var checkin in checkins)
-        {
-          yield return checkin.ToCheckin();
-        }
-
-        offset += checkins.Count;
-
-      } while (checkins.Any());
     }
 
     public void ResetCaches()
     {
       m_userCache = null;
       m_visitCache = null;
-      m_checkinCache = null;
+      m_checkinCache.Clear();
     }
 
     private Person GetCurrentUserInfo()

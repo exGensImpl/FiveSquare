@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using BruTile.Predefined;
 using ExGens.FiveSquare.Domain;
 using Mapsui.Layers;
@@ -23,17 +24,24 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
       Layers = new [] { Map(), Checkins() };
     }
 
-    public void UpdateCheckins(IReadOnlyCollection<Visit> checkins)
+    public void UpdateCheckins(IObservable<Visit> source)
     {
-      var layer = Layers.OfType<MemoryLayer>().FirstOrDefault(_ => _.Name == CheckinLayer);
+      var layer = Layers.OfType<MemoryLayer>() .FirstOrDefault(_ => _.Name == CheckinLayer);
 
-      if (layer?.DataSource is MemoryProvider chekinProvider)
+      if (!(layer?.DataSource is MemoryProvider chekinProvider))
       {
-        var metric = GetMetric(checkins);
-
-        chekinProvider.ReplaceFeatures(ToFeatures(checkins, metric));
-        layer.DataHasChanged();
+        return;
       }
+
+      var checkinList = new List<Visit>();
+
+      source.Buffer(200).Subscribe(checkins =>
+      {
+        checkinList.AddRange(checkins);
+        var metric = GetMetric(checkinList);
+        chekinProvider.ReplaceFeatures(ToFeatures(checkinList, metric));
+        layer.DataHasChanged();
+      });
     }
 
     private ILayer Map() 

@@ -69,7 +69,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
             Categories = stats.Categories;
           });
       
-      var chekins = services.FiveSquare.GetCheckins();
+      var chekins = services.FiveSquare.GetCheckins().ToEnumerable().ToArray();
 
       if (chekins.Any())
       {
@@ -80,11 +80,10 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
 
     private Stats RecalcStats(DateTime start, DateTime end)
     {
-      var chekins = m_services.FiveSquare.GetCheckins()
-                              .Where(_ => _.Date <= end && _.Date >= start)
-                              .ToArray();
+      var chekins = m_services.FiveSquare.GetCheckins().Where(_ => _.Date <= end && _.Date >= start);
 
-      var chekinsByWeek = chekins.GroupBy(_ => new Week(_.Date))
+      var chekinsByWeek = chekins.ToEnumerable()
+                                 .GroupBy(_ => new Week(_.Date))
                                  .OrderBy(_ => _.Key)
                                  .ToArray();
 
@@ -92,7 +91,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       var checkinsByWeek = new ChartValues<int>(chekinsByWeek.Select(_ => _.Count()).ToArray());
 
       var categoriesChart = ColumnChartViewModel.Create(
-        CategoryStats.FromCheckins(chekins), 20, _ => _.Category.Name,
+        CategoryStats.FromCheckins(chekins.ToEnumerable()), 20, _ => _.Category.Name,
         Resources.StatsView_Visits, _ => _.Visits,
         Resources.StatsView_Places, _ => _.Places);
 

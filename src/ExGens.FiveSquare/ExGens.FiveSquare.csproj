@@ -251,6 +251,7 @@
     <Compile Include="Services\SharpSquareMapper.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="Domain\Visit.cs" />
+    <Compile Include="Services\SubjectExtensions.cs" />
     <Compile Include="UI\Navigation\Auth\AddressStringBinding.cs" />
     <Compile Include="UI\Navigation\Auth\AuthMode.cs" />
     <Compile Include="UI\Navigation\Auth\AuthView.xaml.cs">

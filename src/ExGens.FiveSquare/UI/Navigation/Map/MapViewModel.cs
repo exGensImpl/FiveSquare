@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Services;
@@ -33,7 +34,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
       User = services.FiveSquare.User;
       Layers = m_factory.Layers;
 
-      var categoryStats = CategoryStats.FromVisits(services.FiveSquare.GetVisits());
+      var categoryStats = CategoryStats.FromVisits(services.FiveSquare.GetVisits().ToEnumerable());
 
       foreach (var category in categoryStats.OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name))
       {
@@ -59,15 +60,11 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     private void UpdateCheckins()
     {
-      var selectedCategories = Categories.Where(_ => _.Selected).Select(_ => _.Category);
-      
-      var checkinsToShow = 
-        from visit in m_services.FiveSquare.GetVisits()
-        from category in selectedCategories
-        where visit.Venue.Categories.Contains(category)
-        select visit;
+      var selected = Categories.Where(_ => _.Selected).Select(_ => _.Category).ToArray();
+      var checkinsToShow = m_services.FiveSquare.GetVisits()
+                                     .Where(_ => _.Venue.Categories.Intersect(selected).Any());
 
-      m_factory.UpdateCheckins(checkinsToShow.ToArray( ));
+      m_factory.UpdateCheckins(checkinsToShow);
     }
   }
 }

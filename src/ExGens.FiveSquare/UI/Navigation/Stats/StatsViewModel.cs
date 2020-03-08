@@ -44,7 +44,6 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       private set => this.RaiseAndSetIfChanged(ref m_categories, value);
     }
 
-    private readonly FiveSquareServices m_services;
     private ColumnChartViewModel m_categories;
     private IReadOnlyList<string> m_weekLabels;
     private IChartValues m_checkinsByWeek;
@@ -53,12 +52,10 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
 
     public StatsViewModel(FiveSquareServices services)
     {
-      m_services = services;
-
       this.WhenAnyValue(_ => _.Start, _ => _.End)
-          .Throttle(TimeSpan.FromMilliseconds(250))
+          .Throttle(TimeSpan.FromSeconds(0.5))
           .ObserveOn(RxApp.TaskpoolScheduler)
-          .Select(_ => Stats.Calculate(m_services.FiveSquare.GetCheckins(), _.Item1, _.Item2))
+          .Select(_ => Stats.Calculate(services.FiveSquare.GetCheckins(), _.Item1, _.Item2))
           .ObserveOn(RxApp.MainThreadScheduler)
           .Subscribe(stats =>
           {

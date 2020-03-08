@@ -27,8 +27,8 @@
 
       <local:RangeSlider Grid.Row="0" Grid.ColumnSpan="2" Margin="5,0"
                          Minimum="{Binding FirstCheckin}"
-                         LowerValue="{Binding Start, Mode=TwoWay}"
-                         UpperValue="{Binding End, Mode=TwoWay}"
+                         LowerValue="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         UpperValue="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Maximum="{Binding LastCheckin}"/>
 
       <wpf:CartesianChart Grid.Row="1" Grid.ColumnSpan="2">

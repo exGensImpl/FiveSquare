@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using ExGens.FiveSquare.Domain;
-using ExGens.FiveSquare.Properties;
 using ExGens.FiveSquare.Services;
 using LiveCharts;
 using ReactiveUI;
@@ -60,7 +58,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       this.WhenAnyValue(_ => _.Start, _ => _.End)
           .Throttle(TimeSpan.FromMilliseconds(250))
           .ObserveOn(RxApp.TaskpoolScheduler)
-          .Select(_ => RecalcStats(_.Item1, _.Item2))
+          .Select(_ => Stats.Calculate(m_services.FiveSquare.GetCheckins(), _.Item1, _.Item2))
           .ObserveOn(RxApp.MainThreadScheduler)
           .Subscribe(stats =>
           {
@@ -75,42 +73,6 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       {
         Start = FirstCheckin = chekins.Last().Date;
         End = LastCheckin = chekins.First().Date;
-      }
-    }
-
-    private Stats RecalcStats(DateTime start, DateTime end)
-    {
-      var chekins = m_services.FiveSquare.GetCheckins().Where(_ => _.Date <= end && _.Date >= start);
-
-      var chekinsByWeek = chekins.ToEnumerable()
-                                 .GroupBy(_ => new Week(_.Date))
-                                 .OrderBy(_ => _.Key)
-                                 .ToArray();
-
-      var weekLabels = chekinsByWeek.Select(_ => _.Key.Months).ToArray();
-      var checkinsByWeek = new ChartValues<int>(chekinsByWeek.Select(_ => _.Count()).ToArray());
-
-      var categoriesChart = ColumnChartViewModel.Create(
-        CategoryStats.FromCheckins(chekins.ToEnumerable()), 20, _ => _.Category.Name,
-        Resources.StatsView_Visits, _ => _.Visits,
-        Resources.StatsView_Places, _ => _.Places);
-
-      return new Stats(weekLabels, checkinsByWeek, categoriesChart);
-    }
-
-    private readonly struct Stats
-    {
-      public IReadOnlyList<string> WeekLabels { get; }
-
-      public IChartValues CheckinsByWeek { get; }
-
-      public ColumnChartViewModel Categories { get; }
-
-      public Stats(IReadOnlyList<string> weekLabels, IChartValues checkinsByWeek, ColumnChartViewModel categories)
-      {
-        WeekLabels = weekLabels;
-        CheckinsByWeek = checkinsByWeek;
-        Categories = categories;
       }
     }
   }

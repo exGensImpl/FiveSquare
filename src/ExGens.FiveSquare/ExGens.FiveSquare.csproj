@@ -287,6 +287,7 @@
       <DependentUpon>ColumnChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Navigation\Stats\ColumnChartViewModel.cs" />
+    <Compile Include="UI\Navigation\Stats\Stats.cs" />
     <Compile Include="UI\Navigation\Stats\StatsMode.cs" />
     <Compile Include="UI\Navigation\Stats\StatsView.xaml.cs">
       <DependentUpon>StatsView.xaml</DependentUpon>

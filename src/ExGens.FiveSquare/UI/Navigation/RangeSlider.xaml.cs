@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace ExGens.FiveSquare.UI.Navigation.Stats
+namespace ExGens.FiveSquare.UI.Navigation
 {
   /// <summary>
   /// Логика взаимодействия для BoundarySlider.xaml
   /// </summary>
-  public partial class RangeSlider
+  public partial class RangeSlider : UserControl
   {
     public DateTime Minimum
     {

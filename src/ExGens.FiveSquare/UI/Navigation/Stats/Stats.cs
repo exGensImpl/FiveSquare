@@ -17,10 +17,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
     public IChartValues CheckinsByTimeRange { get; }
 
     public ColumnChartViewModel Categories { get; }
-
-    public static Stats Calculate(IObservable<Checkin> checkins, DateTime start, DateTime end)
-      => Calculate(checkins.Where(_ => _.Date <= end && _.Date >= start), new TimeRangeMapper(start, end));
-      
+  
     public static Stats Calculate(IObservable<Checkin> checkins, TimeRangeMapper timeMapper)
     {
       var timeRanges = timeMapper.GetAllMappedRange().ToArray();
@@ -34,7 +31,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
         timeRanges.Select(_ => groupedCheckins.GetOrElse(_, 0)).ToArray());
 
       var categoriesChart = ColumnChartViewModel.Create(
-        CategoryStats.FromCheckins(checkins.ToEnumerable()), 20, _ => _.Category.Name,
+        CategoryStats.FromCheckins(checkins).ToEnumerable(), 20, _ => _.Category.Name,
         Resources.StatsView_Visits, _ => _.Visits,
         Resources.StatsView_Places, _ => _.Places);
 

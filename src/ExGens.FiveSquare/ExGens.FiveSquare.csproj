@@ -245,6 +245,7 @@
     <Compile Include="Domain\TimeRanges\Month.cs" />
     <Compile Include="Domain\Place.cs" />
     <Compile Include="Domain\TimeRanges\TimeRangeMapper.cs" />
+    <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

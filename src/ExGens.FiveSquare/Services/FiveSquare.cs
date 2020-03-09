@@ -40,11 +40,11 @@ namespace ExGens.FiveSquare.Services
       {
         if (m_checkinCache.ContainsKey(offset) == false)
         {
-          var (_, success) = subject.Catch(
+          var request = subject.Catch(
             () => m_checkinCache[offset] = RequestCheckins(offset, limit).Select(_ => _.ToCheckin()).ToArray()
           );
 
-          if (success == false)
+          if (request.IsSuccess == false)
           {
             return;
           }
@@ -52,7 +52,7 @@ namespace ExGens.FiveSquare.Services
         
         subject.EmitAll(m_checkinCache[offset], false);
 
-        if (m_checkinCache[offset].Length == 0)
+        if (m_checkinCache[offset].Length < limit)
         {
           subject.OnCompleted();
           return;

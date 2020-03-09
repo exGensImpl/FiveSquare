@@ -10,9 +10,17 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
 {
   internal sealed class StatsViewModel : ReactiveObject, IViewModel
   {
-    public DateTime FirstCheckin { get; }
+    public DateTime FirstCheckin
+    {
+      get => m_firstCheckin;
+      private set => this.RaiseAndSetIfChanged(ref m_firstCheckin, value);
+    }
 
-    public DateTime LastCheckin { get; }
+    public DateTime LastCheckin
+    {
+      get => m_lastCheckin;
+      private set => this.RaiseAndSetIfChanged(ref m_lastCheckin, value);
+    }
 
     public DateTime Start
     {
@@ -49,12 +57,13 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
     private IChartValues m_checkinsByWeek;
     private DateTime m_start;
     private DateTime m_end;
+    private DateTime m_firstCheckin;
+    private DateTime m_lastCheckin;
 
     public StatsViewModel(FiveSquareServices services)
     {
       this.WhenAnyValue(_ => _.Start, _ => _.End)
-          .Throttle(TimeSpan.FromSeconds(0.5))
-          .ObserveOn(RxApp.TaskpoolScheduler)
+          .Throttle(TimeSpan.FromSeconds(0.5), RxApp.TaskpoolScheduler)
           .Select(_ => Stats.Calculate(services.FiveSquare.GetCheckins(), _.Item1, _.Item2))
           .ObserveOn(RxApp.MainThreadScheduler)
           .Subscribe(stats =>
@@ -63,14 +72,20 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
             CheckinsByWeek = stats.CheckinsByWeek;
             Categories = stats.Categories;
           });
-      
-      var chekins = services.FiveSquare.GetCheckins().ToEnumerable().ToArray();
 
-      if (chekins.Any())
+      var chekins = services.FiveSquare.GetCheckins();
+      var lastCheckinReseived = false;
+
+      chekins.Take(1).Subscribe(_ => End = LastCheckin = _.Date);
+      chekins.TakeLast(1).Subscribe(_ =>
       {
-        Start = FirstCheckin = chekins.Last().Date;
-        End = LastCheckin = chekins.First().Date;
-      }
+        lastCheckinReseived = true;
+        Start = FirstCheckin = _.Date;
+      });
+
+      chekins.Throttle(TimeSpan.FromSeconds(0.5))
+             .TakeWhile(_ => lastCheckinReseived)
+             .Subscribe(_ => Start = FirstCheckin = _.Date);
     }
   }
 }

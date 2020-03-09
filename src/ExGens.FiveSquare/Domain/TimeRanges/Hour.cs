@@ -11,10 +11,10 @@ namespace ExGens.FiveSquare.Domain.TimeRanges
     public DateTime Start { get; }
 
     /// <inheritdoc />
-    public string ShortDescription => $"{Start:dd.MM HH\\:00}";
+    public string ShortDescription => $"{Start:d MMMM H\\:00}";
 
     /// <inheritdoc />
-    public string LongDescription => $"{Start:dddd, dd MMMM HH\\:00}";
+    public string LongDescription => $"{Start:dddd, d MMMM HH\\:00}";
 
     public Hour(DateTime start)
     {

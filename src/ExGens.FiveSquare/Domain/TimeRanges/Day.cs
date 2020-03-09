@@ -11,7 +11,7 @@ namespace ExGens.FiveSquare.Domain.TimeRanges
     public DateTime Start { get; }
 
     /// <inheritdoc />
-    public string ShortDescription => $"{Start:d}";
+    public string ShortDescription => $"{Start:d MMMM yyyy}";
 
     /// <inheritdoc />
     public string LongDescription => $"{Start:D}";

@@ -5,7 +5,7 @@ namespace ExGens.FiveSquare.Services
 {
   internal sealed class FiveSquareServices
   {
-    public FiveSquare FiveSquare { get; private set; }
+    public FiveSquare FiveSquare { get; }
 
     public IFourSquareAccessTokenFactory TokenFactory { get; }
 
@@ -19,7 +19,9 @@ namespace ExGens.FiveSquare.Services
       var client = new SharpSquare(appInfo.ClientId, appInfo.ClientSecret);
 
       FiveSquare = new FiveSquare(client);
-      TokenFactory = new ChromeFourSquareAccessTokenFactory(client, appInfo.Redirect);
+      TokenFactory = appInfo.AccessToken == null?
+        (IFourSquareAccessTokenFactory)new ChromeFourSquareAccessTokenFactory(client, appInfo.Redirect) :
+        (IFourSquareAccessTokenFactory)new DirectTokenFactory(client, appInfo.AccessToken); 
     }
 
     public void NavigateHome() => m_navigateHome();

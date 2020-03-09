@@ -88,6 +88,16 @@ namespace ExGens.FiveSquare.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap powered_by_foursquare_blue {
+            get {
+                object obj = ResourceManager.GetObject("powered_by_foursquare_blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Places.
         /// </summary>
         public static string StatsView_CatByPlacesTitle {

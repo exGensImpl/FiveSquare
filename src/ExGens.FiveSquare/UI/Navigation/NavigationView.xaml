@@ -8,10 +8,16 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:NavigationViewModel}">
   <DockPanel>
-    <ListView x:Name="Modes" DockPanel.Dock="Left" IsTabStop="False"
-              ItemsSource="{Binding Modes}"
-              SelectedItem="{Binding SelectedMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              DisplayMemberPath="Title" BorderBrush="Transparent"/>
+    <DockPanel>
+      <Image DockPanel.Dock="Bottom" Width="120" Margin="2"
+             HorizontalAlignment="Center"
+             RenderOptions.BitmapScalingMode="HighQuality"
+             Source="../../Resources/powered-by-foursquare-blue.png"/>
+      <ListView x:Name="Modes" DockPanel.Dock="Left" IsTabStop="False"
+                ItemsSource="{Binding Modes}"
+                SelectedItem="{Binding SelectedMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Title" BorderBrush="Transparent"/>
+    </DockPanel>
     <ContentControl IsTabStop="False"
                     Content="{Binding SelectedItem, ElementName=Modes}">
       <ContentControl.ContentTemplateSelector>

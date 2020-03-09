@@ -36,10 +36,10 @@
           <wpf:Axis Foreground="IndianRed" Title="{lex:Loc StatsView_Checkins}" MinValue="0"/>
         </wpf:CartesianChart.AxisY>
         <wpf:CartesianChart.AxisX>
-          <wpf:Axis Title="{lex:Loc StatsView_Weeks}" Labels="{Binding WeekLabels}"/>
+          <wpf:Axis Labels="{Binding TimeRangeLabels}"/>
         </wpf:CartesianChart.AxisX>
         <wpf:CartesianChart.Series>
-          <wpf:LineSeries Title="{lex:Loc StatsView_Checkins}" Values="{Binding CheckinsByWeek}"/>
+          <wpf:LineSeries Title="{lex:Loc StatsView_Checkins}" Values="{Binding CheckinsByTimeRange}"/>
         </wpf:CartesianChart.Series>
       </wpf:CartesianChart>
 

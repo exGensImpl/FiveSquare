@@ -1,14 +1,15 @@
 ﻿using System;
+using ExGens.FiveSquare.Domain.TimeRanges;
 
 namespace ExGens.FiveSquare.Domain
 {
   /// <summary>
   /// Represents a check-in
   /// </summary>
-  internal readonly struct Checkin
+  internal readonly struct Checkin : IHaveDate
   {
     /// <summary>
-    /// Date and tine of the check-in
+    /// Date and time of the check-in
     /// </summary>
     public DateTime Date { get; }
 

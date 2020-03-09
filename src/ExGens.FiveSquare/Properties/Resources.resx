@@ -144,7 +144,4 @@
   <data name="StatsView_Visits" xml:space="preserve">
     <value>Visits</value>
   </data>
-  <data name="StatsView_Weeks" xml:space="preserve">
-    <value>Weeks</value>
-  </data>
 </root>

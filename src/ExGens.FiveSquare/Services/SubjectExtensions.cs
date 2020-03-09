@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Infrastructure;
 
 namespace ExGens.FiveSquare.Services

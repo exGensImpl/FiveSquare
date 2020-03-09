@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using ExGens.FiveSquare.Domain;
+using ExGens.FiveSquare.Domain.TimeRanges;
 using ExGens.FiveSquare.Properties;
 using LiveCharts;
 
@@ -10,37 +11,40 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
 {
   internal readonly struct Stats
   {
-    public IReadOnlyList<string> WeekLabels { get; }
+    public IReadOnlyList<ITimeRange> TimeRanges { get; }
 
-    public IChartValues CheckinsByWeek { get; }
+    public IChartValues CheckinsByTimeRange { get; }
 
     public ColumnChartViewModel Categories { get; }
 
     public static Stats Calculate(IObservable<Checkin> checkins, DateTime start, DateTime end)
-      => Calculate(checkins.Where(_ => _.Date <= end && _.Date >= start));
+      => Calculate(checkins.Where(_ => _.Date <= end && _.Date >= start), new TimeRangeMapper(start, end));
       
-    public static Stats Calculate(IObservable<Checkin> checkins)
+    public static Stats Calculate(IObservable<Checkin> checkins, TimeRangeMapper timeMapper)
     {
-      var chekinsByWeek = checkins.ToEnumerable()
-        .GroupBy(_ => new Week(_.Date))
-        .OrderBy(_ => _.Key)
-        .ToArray();
+      var allRanges = timeMapper.GetAllMappedRange().ToArray();
 
-      var weekLabels = chekinsByWeek.Select(_ => _.Key.Months).ToArray();
-      var checkinsByWeek = new ChartValues<int>(chekinsByWeek.Select(_ => _.Count()).ToArray());
+      var groupedCheckins = checkins.ToEnumerable()
+        .GroupBy(timeMapper.GetTimeRange)
+        .OrderBy(_ => _.Key)
+        .ToDictionary(_ => _.Key, _ => _.Count());
+
+      var timeRanges = allRanges.ToArray();
+      var checkinsByRange = new ChartValues<int>(
+        allRanges.Select(_ => groupedCheckins.ContainsKey(_) ? groupedCheckins[_] : 0).ToArray());
 
       var categoriesChart = ColumnChartViewModel.Create(
         CategoryStats.FromCheckins(checkins.ToEnumerable()), 20, _ => _.Category.Name,
         Resources.StatsView_Visits, _ => _.Visits,
         Resources.StatsView_Places, _ => _.Places);
 
-      return new Stats(weekLabels, checkinsByWeek, categoriesChart);
+      return new Stats(timeRanges, checkinsByRange, categoriesChart);
     }
 
-    public Stats(IReadOnlyList<string> weekLabels, IChartValues checkinsByWeek, ColumnChartViewModel categories)
+    private Stats(IReadOnlyList<ITimeRange> timeRanges, IChartValues checkinsByTimeRange, ColumnChartViewModel categories)
     {
-      WeekLabels = weekLabels;
-      CheckinsByWeek = checkinsByWeek;
+      TimeRanges = timeRanges;
+      CheckinsByTimeRange = checkinsByTimeRange;
       Categories = categories;
     }
   }

@@ -34,16 +34,16 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       set => this.RaiseAndSetIfChanged(ref m_end, value);
     }
 
-    public IChartValues CheckinsByWeek
+    public IChartValues CheckinsByTimeRange
     {
-      get => m_checkinsByWeek;
-      private set => this.RaiseAndSetIfChanged(ref m_checkinsByWeek, value);
+      get => m_checkinsByTimeRange;
+      private set => this.RaiseAndSetIfChanged(ref m_checkinsByTimeRange, value);
     }
 
-    public IReadOnlyList<string> WeekLabels
+    public IReadOnlyList<string> TimeRangeLabels
     {
-      get => m_weekLabels;
-      private set => this.RaiseAndSetIfChanged(ref m_weekLabels, value);
+      get => m_timeRangeLabels;
+      private set => this.RaiseAndSetIfChanged(ref m_timeRangeLabels, value);
     }
 
     public ColumnChartViewModel Categories
@@ -53,8 +53,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
     }
 
     private ColumnChartViewModel m_categories;
-    private IReadOnlyList<string> m_weekLabels;
-    private IChartValues m_checkinsByWeek;
+    private IReadOnlyList<string> m_timeRangeLabels;
+    private IChartValues m_checkinsByTimeRange;
     private DateTime m_start;
     private DateTime m_end;
     private DateTime m_firstCheckin;
@@ -68,8 +68,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
           .ObserveOn(RxApp.MainThreadScheduler)
           .Subscribe(stats =>
           {
-            WeekLabels = stats.WeekLabels;
-            CheckinsByWeek = stats.CheckinsByWeek;
+            TimeRangeLabels = stats.TimeRanges.Select(_ => _.ShortDescription).ToArray();
+            CheckinsByTimeRange = stats.CheckinsByTimeRange;
             Categories = stats.Categories;
           });
 

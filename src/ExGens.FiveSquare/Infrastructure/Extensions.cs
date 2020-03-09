@@ -12,5 +12,15 @@ namespace ExGens.FiveSquare.Infrastructure
         action(item);
       }
     }
+
+    public static IEnumerable<T> Unfold<T>(this T start, Func<T, T> next)
+    {
+      var elem = start;
+      while (true)
+      {
+        yield return elem;
+        elem = next(elem);
+      }
+    }
   }
 }

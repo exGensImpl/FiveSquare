@@ -140,14 +140,5 @@ namespace ExGens.FiveSquare.Properties {
                 return ResourceManager.GetString("StatsView_Visits", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Weeks.
-        /// </summary>
-        public static string StatsView_Weeks {
-            get {
-                return ResourceManager.GetString("StatsView_Weeks", resourceCulture);
-            }
-        }
     }
 }

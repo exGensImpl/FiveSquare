@@ -235,7 +235,13 @@
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\CategoryStats.cs" />
     <Compile Include="Domain\Checkin.cs" />
+    <Compile Include="Domain\TimeRanges\Day.cs" />
+    <Compile Include="Domain\IHaveDate.cs" />
+    <Compile Include="Domain\TimeRanges\Hour.cs" />
+    <Compile Include="Domain\TimeRanges\ITimeRange.cs" />
+    <Compile Include="Domain\TimeRanges\Month.cs" />
     <Compile Include="Domain\Place.cs" />
+    <Compile Include="Domain\TimeRanges\TimeRangeMapper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -295,7 +301,7 @@
       <DependentUpon>StatsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Navigation\Stats\StatsViewModel.cs" />
-    <Compile Include="Domain\Week.cs" />
+    <Compile Include="Domain\TimeRanges\Week.cs" />
     <Compile Include="UI\Navigation\Test\TestMode.cs" />
     <Compile Include="UI\Navigation\Test\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>

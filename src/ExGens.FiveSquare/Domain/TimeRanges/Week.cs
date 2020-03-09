@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Globalization;
 
-namespace ExGens.FiveSquare.Domain
+namespace ExGens.FiveSquare.Domain.TimeRanges
 {
   /// <summary>
-  /// Represents a week
+  /// Represents a date and time up to week
   /// </summary>
-  internal readonly struct Week : IEquatable<Week>, IComparable<Week>
+  internal readonly struct Week : ITimeRange, IEquatable<Week>, IComparable<Week>
   {
     /// <summary>
-    /// First day of the week
+    /// First day of the week represented
     /// </summary>
     public DateTime Start { get; }
 
     /// <summary>
-    /// Last day of the week
+    /// Last day of the week represented
     /// </summary>
-    public DateTime End { get; }
+    public DateTime End => Start.AddDays(6);
 
     /// <summary>
-    /// Year of the week
+    /// Year of the week represented
     /// </summary>
-    public int Year { get; }
+    public int Year => Start.Year;
 
     /// <summary>
-    /// Week number respect to its year
+    /// Represented week number respect to its year
     /// </summary>
     public int WeekNumber { get; }
 
@@ -36,12 +36,12 @@ namespace ExGens.FiveSquare.Domain
     /// <summary>
     /// Returns string representation of the week with its start and end like 02.03.2020 - 08.03.2020
     /// </summary>
-    public string StartEndString => $"{Start:d} - {End:d}";
+    public string LongDescription => $"{Start:d} - {End:d}";
     
     /// <summary>
     /// Returns string representation of the week with month and year like march, 2020 or december, 2019 - january, 2020
     /// </summary>
-    public string Months
+    public string ShortDescription
     {
       get
       {
@@ -54,8 +54,6 @@ namespace ExGens.FiveSquare.Domain
     public Week(DateTime start)
     {
       Start = FirstDayOfWeek(start);
-      End = Start.AddDays(6);
-      Year = Start.Year;
       WeekNumber = CultureInfo.CurrentCulture
         .Calendar
         .GetWeekOfYear(start, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
@@ -67,6 +65,12 @@ namespace ExGens.FiveSquare.Domain
 
       int Mod(int k, int n) => (k %= n) < 0? k+n : k;
     }
+
+    /// <inheritdoc />
+    public ITimeRange GetNext() => new Week(Start.AddDays(7));
+
+    /// <inheritdoc />
+    public bool Equals(ITimeRange other) => other is Week week && Equals(week);
 
     /// <inheritdoc />
     public bool Equals(Week other)
@@ -81,6 +85,9 @@ namespace ExGens.FiveSquare.Domain
     }
 
     /// <inheritdoc />
-    public override string ToString() => StartEndString;
+    public int CompareTo(ITimeRange other) => Start.CompareTo(other.Start);
+
+    /// <inheritdoc />
+    public override string ToString() => ShortDescription;
   }
 }

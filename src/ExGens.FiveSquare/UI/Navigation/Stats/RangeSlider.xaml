@@ -10,7 +10,6 @@
   
   <UserControl.Resources>
     <local:DateTimeDoubleConverter x:Key="DateTimeDoubleConverter"/>
-    <local:DateTimeDoubleConverter Inverse="True" x:Key="DoubleDateTimeConverter"/>
     <local:DoubleToDateTimeStringConverter x:Key="DateTimeStringConverter"/>
     <Style TargetType="{x:Type Thumb}">
       <Setter Property="Focusable" Value="false"/>

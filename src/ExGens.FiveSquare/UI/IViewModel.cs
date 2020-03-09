@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ExGens.FiveSquare.UI
+﻿namespace ExGens.FiveSquare.UI
 {
   internal interface IViewModel
   {

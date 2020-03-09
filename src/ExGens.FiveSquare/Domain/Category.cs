@@ -7,7 +7,7 @@ namespace ExGens.FiveSquare.Domain
   /// </summary>
   internal sealed class Category
   {
-    private static readonly ConcurrentDictionary<string, Category> m_cache
+    private static readonly ConcurrentDictionary<string, Category> Cache
       = new ConcurrentDictionary<string, Category>();
 
     /// <summary>
@@ -22,7 +22,7 @@ namespace ExGens.FiveSquare.Domain
 
     public static Category GetOrCreate(string id, string name)
     {
-      return m_cache.GetOrAdd(id, new Category(id, name));
+      return Cache.GetOrAdd(id, new Category(id, name));
     }
 
     private Category(string id, string name)

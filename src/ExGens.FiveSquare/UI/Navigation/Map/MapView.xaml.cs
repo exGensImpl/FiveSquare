@@ -1,14 +1,11 @@
-﻿using System;
-using System.Windows.Controls;
-using Mapsui;
-using Mapsui.UI;
+﻿using Mapsui.UI;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
   /// <summary>
   /// Логика взаимодействия для MapView.xaml
   /// </summary>
-  public partial class MapView : UserControl
+  public partial class MapView
   {
     public MapView()
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using ExGens.FiveSquare.Domain.TimeRanges;
 
 namespace ExGens.FiveSquare.Domain
 {

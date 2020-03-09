@@ -1,6 +1,4 @@
-﻿using ExGens.FiveSquare.Services;
-
-namespace ExGens.FiveSquare.Domain
+﻿namespace ExGens.FiveSquare.Domain
 {
   /// <summary>
   /// Represents an amount of visits of the specified venue

@@ -13,11 +13,11 @@ namespace ExGens.FiveSquare.UI
       PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     
-    protected virtual void OnPropertyChanged<T>(ref T Field, T Value, [CallerMemberName] string propertyName = null)
+    protected virtual void OnPropertyChanged<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
     {
-      if (EqualityComparer<T>.Default.Equals(Field, Value) == false)
+      if (EqualityComparer<T>.Default.Equals(field, value) == false)
       {
-        Field = Value;
+        field = value;
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
       }
     }

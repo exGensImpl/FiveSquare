@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reactive.Linq;
 using ExGens.FiveSquare.Domain;
 using FourSquare.SharpSquare.Core;
 

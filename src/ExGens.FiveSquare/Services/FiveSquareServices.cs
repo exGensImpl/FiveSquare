@@ -20,7 +20,7 @@ namespace ExGens.FiveSquare.Services
 
       FiveSquare = new FiveSquare(client);
       TokenFactory = appInfo.AccessToken == null?
-        (IFourSquareAccessTokenFactory)new ChromeFourSquareAccessTokenFactory(client, appInfo.Redirect) :
+        new ChromeFourSquareAccessTokenFactory(client, appInfo.Redirect) :
         (IFourSquareAccessTokenFactory)new DirectTokenFactory(client, appInfo.AccessToken); 
     }
 

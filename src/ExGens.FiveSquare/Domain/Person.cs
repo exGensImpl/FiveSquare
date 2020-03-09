@@ -1,6 +1,4 @@
-﻿using ExGens.FiveSquare.Services;
-
-namespace ExGens.FiveSquare.Domain
+﻿namespace ExGens.FiveSquare.Domain
 {
   /// <summary>
   /// Represent a person

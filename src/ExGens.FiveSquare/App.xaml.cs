@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System.Windows;
 using WPFLocalizeExtension.Engine;
 
 namespace ExGens.FiveSquare
@@ -7,7 +6,7 @@ namespace ExGens.FiveSquare
   /// <summary>
   /// Логика взаимодействия для App.xaml
   /// </summary>
-  public partial class App : Application
+  public partial class App
   {
     public App()
     {

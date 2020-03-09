@@ -12,8 +12,8 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance local:MapViewModel}"
              DataContext="{DynamicResource VM}">
-    <DockPanel>
-      <Label DockPanel.Dock="Top" Content="{Binding User.Name}" FontSize="24" ContentStringFormat="Map of {0} checkins"/>
+
+  <DockPanel>
       <DockPanel DockPanel.Dock="Right">
         <Button DockPanel.Dock="Top" Content="{lex:Loc MainView_UncheckAllCategories}" 
                 Command="{Binding UncheckAllCategories}"/>
@@ -26,6 +26,6 @@
           </ListBox.ItemTemplate>
         </ListBox>
       </DockPanel>
-      <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding User.Home, UpdateSourceTrigger=PropertyChanged}"/> 
+      <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding Location, Mode=OneWay}"/> 
     </DockPanel>
 </UserControl>

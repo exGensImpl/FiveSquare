@@ -16,7 +16,11 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
   {
     public ICommand UncheckAllCategories { get; }
 
-    public Person User { get; }
+    public Coordinates Location
+    {
+      get => m_location;
+      set => this.RaiseAndSetIfChanged(ref m_location, value);
+    }
 
     public IEnumerable<ILayer> Layers { get; }
 
@@ -39,6 +43,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
                    .OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name)
                    .Select(_ => new CategoryModel(_.Category, _.Visits))
                    .Foreach(Categories.Add);
+      services.FiveSquare.GetCheckins().Take(1)
+                         .Subscribe(_ => Location = _.Location.Address.Location);
 
       Categories.ListChanged += CategoriesChanged;
       UpdateCheckins();

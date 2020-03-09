@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Threading.Tasks;
 using ExGens.FiveSquare.Domain;
 using FourSquare.SharpSquare.Core;
 
@@ -54,10 +51,11 @@ namespace ExGens.FiveSquare.Services
           }
         }
         
-        subject.EmitAll(m_checkinCache[offset]);
+        subject.EmitAll(m_checkinCache[offset], false);
 
         if (m_checkinCache[offset].Length == 0)
         {
+          subject.OnCompleted();
           return;
         }
 

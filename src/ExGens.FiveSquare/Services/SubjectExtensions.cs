@@ -21,10 +21,13 @@ namespace ExGens.FiveSquare.Services
       return success;
     }
 
-    public static void EmitAll<T>(this IObserver<T> subject, IEnumerable<T> source)
+    public static void EmitAll<T>(this IObserver<T> subject, IEnumerable<T> source, bool complete = true)
     {
       source.Foreach(subject.OnNext);
-      subject.OnCompleted();
+      if (complete)
+      {
+        subject.OnCompleted();
+      }
     }
 
     public static (TOut,bool) Catch<T,TOut>(this IObserver<T> subject, Func<TOut> func)

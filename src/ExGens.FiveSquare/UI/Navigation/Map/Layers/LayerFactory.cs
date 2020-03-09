@@ -40,8 +40,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
       source.Buffer(200).Subscribe(checkins =>
       {
         checkinList.AddRange(checkins);
-        var metric = GetMetric(checkinList);
-        chekinProvider.ReplaceFeatures(ToFeatures(checkinList, metric));
+        chekinProvider.ReplaceFeatures(ToFeatures(checkinList));
         layer.DataHasChanged();
       });
 
@@ -52,21 +51,19 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
       => new TileLayer(KnownTileSources.Create(m_settings.TileSource));
 
     private ILayer Checkins(IReadOnlyCollection<Visit> checkins = null)
+      => new MemoryLayer
+        {
+          Name = CheckinLayer,
+          IsMapInfoLayer = true,
+          Style = new SymbolStyle{ Opacity = 0 },
+          DataSource = new MemoryProvider(ToFeatures(checkins ?? Array.Empty<Visit>()))
+        };
+
+    private IEnumerable<IFeature> ToFeatures(IReadOnlyCollection<Visit> checkins)
     {
-      checkins = checkins ?? Array.Empty<Visit>();
       var metric = GetMetric(checkins);
-
-      return new MemoryLayer
-      {
-        Name = CheckinLayer,
-        IsMapInfoLayer = true,
-        Style = new SymbolStyle{ Opacity = 0 },
-        DataSource = new MemoryProvider(ToFeatures(checkins, metric))
-      };
+      return checkins.Select(_ => _.ToFeature(m_settings.GetStyles(_, metric).ToArray()));
     }
-
-    private IEnumerable<IFeature> ToFeatures(IEnumerable<Visit> checkins, IVisitMetric metric)
-      => checkins.Select(_ => _.ToFeature(m_settings.GetStyles(_, metric).ToArray()));
 
     private IVisitMetric GetMetric(IReadOnlyCollection<Visit> visits)
       => visits.Any()

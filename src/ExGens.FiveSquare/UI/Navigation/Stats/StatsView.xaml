@@ -25,13 +25,13 @@
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <local:RangeSlider Grid.Row="0" Grid.ColumnSpan="2" Margin="5,0"
+      <local:RangeSlider Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,0"
                          Minimum="{Binding FirstCheckin}"
                          LowerValue="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          UpperValue="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Maximum="{Binding LastCheckin}"/>
 
-      <wpf:CartesianChart Grid.Row="1" Grid.ColumnSpan="2">
+      <wpf:CartesianChart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
         <wpf:CartesianChart.AxisY>
           <wpf:Axis Foreground="IndianRed" Title="{lex:Loc StatsView_Checkins}" MinValue="0"/>
         </wpf:CartesianChart.AxisY>

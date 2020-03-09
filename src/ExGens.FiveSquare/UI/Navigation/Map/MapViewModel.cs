@@ -58,10 +58,9 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     private void UpdateCheckins()
     {
       var selected = Categories.Where(_ => _.Selected).Select(_ => _.Category).ToArray();
-      var checkinsToShow = m_services.FiveSquare.GetVisits()
-                                     .Where(_ => _.Venue.Categories.Intersect(selected).Any());
-
-      m_factory.UpdateCheckins(checkinsToShow);
+      m_services.FiveSquare.GetVisits()
+                .Where(_ => _.Venue.Categories.Intersect(selected).Any())
+                .To(m_factory.UpdateCheckins);
     }
   }
 }

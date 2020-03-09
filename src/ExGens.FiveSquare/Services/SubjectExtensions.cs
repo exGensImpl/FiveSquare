@@ -4,12 +4,13 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ExGens.FiveSquare.Infrastructure;
+using JetBrains.Annotations;
 
 namespace ExGens.FiveSquare.Services
 {
   internal static class SubjectExtensions
   {
-    public static bool CatchAndEmitAll<T>(this IObserver<T> subject, Func<IEnumerable<T>> source)
+    public static bool CatchAndEmitAll<T>(this IObserver<T> subject, [InstantHandle] Func<IEnumerable<T>> source)
     {
       var (result, success) = Catch(subject, source);
       if (success)
@@ -20,7 +21,7 @@ namespace ExGens.FiveSquare.Services
       return success;
     }
 
-    public static void EmitAll<T>(this IObserver<T> subject, IEnumerable<T> source, bool complete = true)
+    public static void EmitAll<T>(this IObserver<T> subject, [InstantHandle] IEnumerable<T> source, bool complete = true)
     {
       source.Foreach(subject.OnNext);
       if (complete)
@@ -29,7 +30,7 @@ namespace ExGens.FiveSquare.Services
       }
     }
 
-    public static (TOut,bool) Catch<T,TOut>(this IObserver<T> subject, Func<TOut> func)
+    public static (TOut,bool) Catch<T,TOut>(this IObserver<T> subject, [InstantHandle] Func<TOut> func)
     {
       try
       {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Domain.TimeRanges;
+using ExGens.FiveSquare.Infrastructure;
 using ExGens.FiveSquare.Properties;
 using LiveCharts;
 
@@ -22,16 +23,15 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
       
     public static Stats Calculate(IObservable<Checkin> checkins, TimeRangeMapper timeMapper)
     {
-      var allRanges = timeMapper.GetAllMappedRange().ToArray();
+      var timeRanges = timeMapper.GetAllMappedRange().ToArray();
 
       var groupedCheckins = checkins.ToEnumerable()
         .GroupBy(timeMapper.GetTimeRange)
         .OrderBy(_ => _.Key)
         .ToDictionary(_ => _.Key, _ => _.Count());
 
-      var timeRanges = allRanges.ToArray();
       var checkinsByRange = new ChartValues<int>(
-        allRanges.Select(_ => groupedCheckins.ContainsKey(_) ? groupedCheckins[_] : 0).ToArray());
+        timeRanges.Select(_ => groupedCheckins.GetOrElse(_, 0)).ToArray());
 
       var categoriesChart = ColumnChartViewModel.Create(
         CategoryStats.FromCheckins(checkins.ToEnumerable()), 20, _ => _.Category.Name,

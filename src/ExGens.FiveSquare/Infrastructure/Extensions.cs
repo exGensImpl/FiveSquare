@@ -21,6 +21,20 @@ namespace ExGens.FiveSquare.Infrastructure
         yield return elem;
         elem = next(elem);
       }
+      // ReSharper disable once IteratorNeverReturns
+      // It's a sequence generator
     }
+
+    public static TValue GetOrElse<TKey, TValue>(
+      this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key, TValue fallback)
+      => dictionary.ContainsKey(key) ? dictionary[key] : fallback;
+
+    public static T To<T>(this T value, Action<T> action)
+    {
+      action(value);
+      return value;
+    }
+
+    public static TOut To<T, TOut>(this T value, Func<T, TOut> func) => func(value);
   }
 }

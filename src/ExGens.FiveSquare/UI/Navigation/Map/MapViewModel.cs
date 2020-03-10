@@ -44,12 +44,12 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     public MapViewModel(FiveSquareServices services) : base(services)
     {
-      UncheckAllCategories = new ActionCommand(DoUncheckAllCategories);
+      UncheckAllCategories = new ActionCommand(() => Categories.BatchForeach(_ => _.Selected = false));
 
       m_factory = new LayerFactory(Settings = LayerSettings.Default);
 
-      Categories.ListChanged += CategoriesChanged;
-      Settings.PropertyChanged += (o, e) => UpdateCheckins();
+      Categories.ListChanged += (o, e) => m_factory.UpdateCheckins(GetSelectedCheckins());
+      Settings.PropertyChanged += (o, e) => m_factory.UpdateCheckins(GetSelectedCheckins());
 
       var rangeChanging = this.WhenAnyValue(_ => _.Start, _ => _.End)
                               .Throttle(TimeSpan.FromSeconds(0.5), RxApp.TaskpoolScheduler);
@@ -68,15 +68,8 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     
     private void UpdateCategoryModels(IReadOnlyCollection<CategoryModel> models)
     {
-      Categories.ListChanged -= CategoriesChanged;
-
       models.Foreach(_ => _.Selected = Categories.FirstOrDefault(c => c.Category == _.Category)?.Selected != false);
-
-      Categories.Clear();
-      models.Foreach(Categories.Add);
-
-      Categories.ListChanged += CategoriesChanged;
-      CategoriesChanged(Categories, new ListChangedEventArgs(ListChangedType.Reset, 0));
+      Categories.Replace(models);
     }
 
     private IReadOnlyCollection<CategoryModel> GetCategoryModels()
@@ -84,22 +77,6 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
                       .OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name)
                       .Select(_ => new CategoryModel(_.Category, _.Visits))
                       .ToArray();
-
-    private void DoUncheckAllCategories()
-    {
-      Categories.ListChanged -= CategoriesChanged;
-      Categories.Foreach(_ => _.Selected = false);
-      Categories.ListChanged += CategoriesChanged;
-
-      UpdateCheckins();
-    }
-
-    private void CategoriesChanged(object sender, ListChangedEventArgs e) => UpdateCheckins();
-
-    private void UpdateCheckins()
-    {
-      m_factory.UpdateCheckins(GetSelectedCheckins());
-    }
     
     private IObservable<Visit> GetSelectedCheckins()
     {

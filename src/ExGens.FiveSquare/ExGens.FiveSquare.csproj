@@ -271,6 +271,7 @@
     <Compile Include="UI\Navigation\Auth\AuthViewModel.cs" />
     <Compile Include="UI\Navigation\IModeFactory.cs" />
     <Compile Include="UI\Navigation\Map\BindableMap.cs" />
+    <Compile Include="UI\Navigation\Map\BindingListExtensions.cs" />
     <Compile Include="UI\Navigation\Map\CategoryModel.cs" />
     <Compile Include="UI\Navigation\Map\Layers\ConstantMetric.cs" />
     <Compile Include="UI\Navigation\Map\Layers\IVisitMetric.cs" />

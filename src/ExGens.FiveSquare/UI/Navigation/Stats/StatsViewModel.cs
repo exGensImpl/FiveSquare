@@ -37,7 +37,9 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
     {
       this.WhenAnyValue(_ => _.Start, _ => _.End)
           .Throttle(TimeSpan.FromSeconds(0.5), RxApp.TaskpoolScheduler)
-          .Select(_ => Stats.Calculate(GetFilteredCheckins(), new TimeRangeMapper(_.Item1, _.Item2)))
+          .Select(_ => Stats.Calculate(
+              GetFilteredCheckins().ToEnumerable().ToArray(), 
+              new TimeRangeMapper(_.Item1, _.Item2)))
           .ObserveOn(RxApp.MainThreadScheduler)
           .Subscribe(stats =>
           {

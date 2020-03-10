@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Domain.TimeRanges;
 using ExGens.FiveSquare.Infrastructure;
@@ -18,11 +16,11 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
 
     public ColumnChartViewModel Categories { get; }
   
-    public static Stats Calculate(IObservable<Checkin> checkins, TimeRangeMapper timeMapper)
+    public static Stats Calculate(IReadOnlyList<Checkin> checkins, TimeRangeMapper timeMapper)
     {
       var timeRanges = timeMapper.GetAllMappedRange().ToArray();
 
-      var groupedCheckins = checkins.ToEnumerable()
+      var groupedCheckins = checkins
         .GroupBy(timeMapper.GetTimeRange)
         .OrderBy(_ => _.Key)
         .ToDictionary(_ => _.Key, _ => _.Count());
@@ -31,7 +29,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
         timeRanges.Select(_ => groupedCheckins.GetOrElse(_, 0)).ToArray());
 
       var categoriesChart = ColumnChartViewModel.Create(
-        CategoryStats.FromCheckins(checkins).ToEnumerable(), 20, _ => _.Category.Name,
+        CategoryStats.FromCheckins(checkins), 20, _ => _.Category.Name,
         Resources.StatsView_Visits, _ => _.Visits,
         Resources.StatsView_Places, _ => _.Places);
 

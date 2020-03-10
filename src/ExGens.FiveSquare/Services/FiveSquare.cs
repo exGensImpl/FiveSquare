@@ -44,7 +44,7 @@ namespace ExGens.FiveSquare.Services
             () => m_checkinCache[offset] = RequestCheckins(offset, limit).Select(_ => _.ToCheckin()).ToArray()
           );
 
-          if (request.IsSuccess == false)
+          if (request.IsFail)
           {
             return;
           }

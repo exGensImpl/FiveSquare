@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ExGens.FiveSquare.UI.Navigation.Map"
              mc:Ignorable="d" 
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:navigation="clr-namespace:ExGens.FiveSquare.UI.Navigation"
              lex:LocalizeDictionary.DesignCulture="ru"
              lex:ResxLocalizationProvider.DefaultAssembly="ExGens.FiveSquare"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -15,7 +16,7 @@
 
   <DockPanel>
       <DockPanel DockPanel.Dock="Right">
-        <Button DockPanel.Dock="Top" Content="{lex:Loc MainView_UncheckAllCategories}" 
+        <Button DockPanel.Dock="Bottom" Content="{lex:Loc MainView_UncheckAllCategories}" 
                 Command="{Binding UncheckAllCategories}"/>
         <ListBox BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                  ItemsSource="{Binding Categories}">
@@ -26,6 +27,14 @@
           </ListBox.ItemTemplate>
         </ListBox>
       </DockPanel>
+      
+      <navigation:RangeSlider DockPanel.Dock="Bottom" Height="35" Margin="0,5"
+                              Minimum="{Binding FirstCheckin}"
+                              LowerValue="{Binding Start, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              UpperValue="{Binding End, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Maximum="{Binding LastCheckin}"/>
+
       <local:BindableMap x:Name="Map" LayerSource="{Binding Layers}" Location="{Binding Location, Mode=OneWay}"/> 
     </DockPanel>
+
 </UserControl>

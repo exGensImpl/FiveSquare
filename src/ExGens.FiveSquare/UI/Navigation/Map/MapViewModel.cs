@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
@@ -9,46 +10,68 @@ using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Map.Layers;
 using Mapsui.Layers;
 using Microsoft.Expression.Interactivity.Core;
+using ReactiveUI;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map
 {
-  internal sealed class MapViewModel : NotifyPropertyChangedTrait, IViewModel
+  internal sealed class MapViewModel : CheckinRangeBasedViewModel
   {
     public ICommand UncheckAllCategories { get; }
 
     public Coordinates Location
     {
       get => m_location;
-      set => this.RaiseAndSetIfChanged(ref m_location, value);
+      private set => this.RaiseAndSetIfChanged(ref m_location, value);
     }
 
-    public IEnumerable<ILayer> Layers { get; }
+    public IEnumerable<ILayer> Layers => m_factory.Layers;
 
     public BindingList<CategoryModel> Categories { get; } = new BindingList<CategoryModel>();
 
-    private readonly FiveSquareServices m_services;
     private readonly LayerFactory m_factory;
+    private Coordinates m_location;
 
-    public MapViewModel(FiveSquareServices services)
+    public MapViewModel(FiveSquareServices services) : base(services)
     {
       UncheckAllCategories = new ActionCommand(DoUncheckAllCategories);
 
-      m_services = services;
       m_factory = new LayerFactory(LayerSettings.Default);
 
-      User = services.FiveSquare.User;
-      Layers = m_factory.Layers;
+      Categories.ListChanged += CategoriesChanged;
 
-      CategoryStats.FromVisits(services.FiveSquare.GetVisits().ToEnumerable())
-                   .OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name)
-                   .Select(_ => new CategoryModel(_.Category, _.Visits))
-                   .Foreach(Categories.Add);
+      var rangeChanging = this.WhenAnyValue(_ => _.Start, _ => _.End)
+                              .Throttle(TimeSpan.FromSeconds(0.5), RxApp.TaskpoolScheduler);
+      
+      rangeChanging.Select(_ => GetCategoryModels())
+                   .ObserveOn(RxApp.MainThreadScheduler)
+                   .Subscribe(UpdateCategoryModels);
+        
+      rangeChanging.Select(_ => GetSelectedCheckins())
+                   .ObserveOn(RxApp.MainThreadScheduler)
+                   .Subscribe(m_factory.UpdateCheckins);
+
       services.FiveSquare.GetCheckins().Take(1)
                          .Subscribe(_ => Location = _.Location.Address.Location);
+    }
+    
+    private void UpdateCategoryModels(IReadOnlyCollection<CategoryModel> models)
+    {
+      Categories.ListChanged -= CategoriesChanged;
+
+      models.Foreach(_ => _.Selected = Categories.FirstOrDefault(c => c.Category == _.Category)?.Selected != false);
+
+      Categories.Clear();
+      models.Foreach(Categories.Add);
 
       Categories.ListChanged += CategoriesChanged;
-      UpdateCheckins();
+      CategoriesChanged(Categories, new ListChangedEventArgs(ListChangedType.Reset, 0));
     }
+
+    private IReadOnlyCollection<CategoryModel> GetCategoryModels()
+      => CategoryStats.FromVisits(GetFilteredVisits().ToEnumerable())
+                      .OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name)
+                      .Select(_ => new CategoryModel(_.Category, _.Visits))
+                      .ToArray();
 
     private void DoUncheckAllCategories()
     {
@@ -63,10 +86,18 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     private void UpdateCheckins()
     {
-      var selected = Categories.Where(_ => _.Selected).Select(_ => _.Category).ToArray();
-      m_services.FiveSquare.GetVisits()
-                .Where(_ => _.Venue.Categories.Intersect(selected).Any())
-                .To(m_factory.UpdateCheckins);
+      m_factory.UpdateCheckins(GetSelectedCheckins());
     }
+    
+    private IObservable<Visit> GetSelectedCheckins()
+    {
+      var selected = Categories.Where(_ => _.Selected).Select(_ => _.Category).ToArray();
+      return GetFilteredVisits().Where(_ => _.Venue.Categories.Intersect(selected).Any());
+    }
+
+    private IObservable<Visit> GetFilteredVisits()
+      => GetFilteredCheckins()
+        .GroupBy(_ => _.Location)
+        .SelectAsync(async _ => new Visit(_.Key, await _.Count()));
   }
 }

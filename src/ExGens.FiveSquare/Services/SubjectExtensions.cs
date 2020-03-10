@@ -43,5 +43,8 @@ namespace ExGens.FiveSquare.Services
         return Disposable.Empty;
       });
     }
+
+    public static IObservable<TOut> SelectAsync<T, TOut>(this IObservable<T> source, Func<T, Task<TOut>> mapper)
+      => source.SelectMany(_ => Observable.FromAsync(async () =>  await mapper(_)));
   }
 }

@@ -123,6 +123,21 @@
   <data name="MainView_UncheckAllCategories" xml:space="preserve">
     <value>Сбросить всё</value>
   </data>
+  <data name="MapView_Metrics_Const" xml:space="preserve">
+    <value>Константная</value>
+  </data>
+  <data name="MapView_Metrics_Linear" xml:space="preserve">
+    <value>Линейная</value>
+  </data>
+  <data name="MapView_Metrics_Log" xml:space="preserve">
+    <value>Логарифмическая</value>
+  </data>
+  <data name="MapView_Metrics_Multiplier" xml:space="preserve">
+    <value>Множитель:</value>
+  </data>
+  <data name="MapView_Metrics_Title" xml:space="preserve">
+    <value>Метрика</value>
+  </data>
   <data name="Map_Title" xml:space="preserve">
     <value>Карта</value>
   </data>

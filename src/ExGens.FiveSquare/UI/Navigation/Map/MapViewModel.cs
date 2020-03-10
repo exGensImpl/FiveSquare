@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using ExGens.FiveSquare.Domain;
 using ExGens.FiveSquare.Infrastructure;
+using ExGens.FiveSquare.Properties;
 using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Map.Layers;
 using Mapsui.Layers;
@@ -26,6 +27,16 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
 
     public IEnumerable<ILayer> Layers => m_factory.Layers;
 
+    public LayerSettings Settings { get; }
+
+    public IReadOnlyCollection<Tuple<string, MetricFactory>> Metrics { get; }
+      = new[]
+      {
+        Tuple.Create(Resources.MapView_Metrics_Linear, (MetricFactory)((v, m) => new LinearVisitCountMetric(v, m))),
+        Tuple.Create(Resources.MapView_Metrics_Log, (MetricFactory)((v, m) => new LogVisitCountMetric(v, m))),
+        Tuple.Create(Resources.MapView_Metrics_Const, (MetricFactory)((v, m) => new ConstantMetric(1.5f)))
+      };
+
     public BindingList<CategoryModel> Categories { get; } = new BindingList<CategoryModel>();
 
     private readonly LayerFactory m_factory;
@@ -35,9 +46,10 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     {
       UncheckAllCategories = new ActionCommand(DoUncheckAllCategories);
 
-      m_factory = new LayerFactory(LayerSettings.Default);
+      m_factory = new LayerFactory(Settings = LayerSettings.Default);
 
       Categories.ListChanged += CategoriesChanged;
+      Settings.PropertyChanged += (o, e) => UpdateCheckins();
 
       var rangeChanging = this.WhenAnyValue(_ => _.Start, _ => _.End)
                               .Throttle(TimeSpan.FromSeconds(0.5), RxApp.TaskpoolScheduler);

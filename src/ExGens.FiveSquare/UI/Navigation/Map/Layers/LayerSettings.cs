@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BruTile.Predefined;
 using ExGens.FiveSquare.Domain;
@@ -6,21 +7,52 @@ using Mapsui.Styles;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 {
-  internal sealed class LayerSettings
+  internal delegate IVisitMetric MetricFactory(IReadOnlyCollection<Visit> visits, float multiplier);
+
+  internal sealed class LayerSettings : NotifyPropertyChangedTrait
   {
-    public KnownTileSource TileSource { get; set; }
+    public KnownTileSource TileSource
+    {
+      get => m_tileSource;
+      set => OnPropertyChanged(ref m_tileSource, value);
+    }
 
-    public float CheckinPointOpacity { get; set; }
+    public float CheckinPointOpacity
+    {
+      get => m_checkinPointOpacity;
+      set => OnPropertyChanged(ref m_checkinPointOpacity, value);
+    }
 
-    public float CheckinPointMultiplier { get; set; }
+    public float CheckinPointMultiplier
+    {
+      get => m_checkinPointMultiplier;
+      set => OnPropertyChanged(ref m_checkinPointMultiplier, value);
+    }
 
-    public IReadOnlyList<PointScale> Scales { get; set; }
+    public MetricFactory MetricFactory
+    {
+      get => m_metricFactory;
+      set => OnPropertyChanged(ref m_metricFactory, value);
+    }
+
+    public IReadOnlyList<PointScale> Scales
+    {
+      get => m_scales;
+      set => OnPropertyChanged(ref m_scales, value);
+    }
+
+    private MetricFactory m_metricFactory;
+    private float m_checkinPointMultiplier;
+    private float m_checkinPointOpacity;
+    private KnownTileSource m_tileSource;
+    private IReadOnlyList<PointScale> m_scales;
 
     public static LayerSettings Default 
       => new LayerSettings
       {
         TileSource = KnownTileSource.OpenStreetMap,
         CheckinPointMultiplier = 3,
+        MetricFactory = (v,m) => new LinearVisitCountMetric(v, m),
         CheckinPointOpacity = 0.7f,
         Scales = new []
         {

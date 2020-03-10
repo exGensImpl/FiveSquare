@@ -276,6 +276,7 @@
     <Compile Include="UI\Navigation\Map\Layers\IVisitMetric.cs" />
     <Compile Include="UI\Navigation\Map\Layers\LayerFactory.cs" />
     <Compile Include="UI\Navigation\Map\Layers\LayerSettings.cs" />
+    <Compile Include="UI\Navigation\Map\Layers\LinearVisitCountMetric.cs" />
     <Compile Include="UI\Navigation\Map\Layers\LogVisitCountMetric.cs" />
     <Compile Include="UI\Navigation\Map\MapsuiMapper.cs" />
     <Compile Include="UI\Navigation\Map\MapView.xaml.cs">

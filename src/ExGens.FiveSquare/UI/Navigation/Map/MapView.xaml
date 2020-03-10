@@ -14,8 +14,78 @@
              d:DataContext="{d:DesignInstance local:MapViewModel}"
              DataContext="{DynamicResource VM}">
 
+  <UserControl.Resources>
+    <Style x:Key="RadioButtonList" TargetType="{x:Type ListBox}">
+    <!-- ControlTemplate taken from MSDN http://msdn.microsoft.com/en-us/library/ms754242.aspx -->
+    <Setter Property="SnapsToDevicePixels" Value="true"/>
+    <Setter Property="OverridesDefaultStyle" Value="true"/>
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+    <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="ListBox">
+                <Border Name="Border" Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        CornerRadius="2">
+                    <ScrollViewer Margin="0" Focusable="false">
+                        <StackPanel Margin="2" IsItemsHost="True" />
+                    </ScrollViewer>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter TargetName="Border" Property="Background"
+                                Value="Transparent" />
+                        <Setter TargetName="Border" Property="BorderBrush"
+                                Value="Transparent" />
+                    </Trigger>
+                    <Trigger Property="IsGrouping" Value="true">
+                        <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+    <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+            <Style TargetType="{x:Type ListBoxItem}" >
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border Name="theBorder" Background="Transparent">
+                                <RadioButton Focusable="False" IsHitTestVisible="False"
+                                             IsChecked="{TemplateBinding IsSelected}">
+                                    <ContentPresenter />
+                                </RadioButton>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Setter.Value>
+    </Setter>
+</Style>
+  </UserControl.Resources>
+
   <DockPanel>
-      <DockPanel DockPanel.Dock="Right">
+      <DockPanel DockPanel.Dock="Right" Margin="5">
+        <StackPanel DockPanel.Dock="Bottom">
+          <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center"
+                     Text="{lex:Loc MapView_Metrics_Title}"/>
+          <ListBox DockPanel.Dock="Bottom" Background="Transparent"
+                   Style="{StaticResource RadioButtonList}"
+                   ItemsSource="{Binding Metrics}"
+                   DisplayMemberPath="Item1" SelectedValuePath="Item2"
+                   SelectedValue="{Binding Settings.MetricFactory, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"/>
+          <DockPanel HorizontalAlignment="Center">
+            <TextBox DockPanel.Dock="Right" Width="30" Margin="5,0,0,0"
+                     Text="{Binding Settings.CheckinPointMultiplier, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"/>
+            <TextBlock Text="{lex:Loc MapView_Metrics_Multiplier}"/>
+          </DockPanel>
+        </StackPanel>
+        
         <Button DockPanel.Dock="Bottom" Content="{lex:Loc MainView_UncheckAllCategories}" 
                 Command="{Binding UncheckAllCategories}"/>
         <ListBox BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Hidden"

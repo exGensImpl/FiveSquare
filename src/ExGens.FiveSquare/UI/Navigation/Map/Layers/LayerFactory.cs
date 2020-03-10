@@ -67,7 +67,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 
     private IVisitMetric GetMetric(IReadOnlyCollection<Visit> visits)
       => visits.Any()
-      ? (IVisitMetric)new LogVisitCountMetric(visits, m_settings.CheckinPointMultiplier)
+      ? m_settings.MetricFactory(visits, m_settings.CheckinPointMultiplier)
       : new ConstantMetric(1);
 
   }

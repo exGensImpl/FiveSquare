@@ -88,6 +88,51 @@ namespace ExGens.FiveSquare.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Constant.
+        /// </summary>
+        public static string MapView_Metrics_Const {
+            get {
+                return ResourceManager.GetString("MapView_Metrics_Const", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Linear.
+        /// </summary>
+        public static string MapView_Metrics_Linear {
+            get {
+                return ResourceManager.GetString("MapView_Metrics_Linear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Logarithmic.
+        /// </summary>
+        public static string MapView_Metrics_Log {
+            get {
+                return ResourceManager.GetString("MapView_Metrics_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Multiplier:.
+        /// </summary>
+        public static string MapView_Metrics_Multiplier {
+            get {
+                return ResourceManager.GetString("MapView_Metrics_Multiplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Metric.
+        /// </summary>
+        public static string MapView_Metrics_Title {
+            get {
+                return ResourceManager.GetString("MapView_Metrics_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap powered_by_foursquare_blue {

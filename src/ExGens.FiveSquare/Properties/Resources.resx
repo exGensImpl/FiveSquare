@@ -123,6 +123,21 @@
   <data name="MainView_UncheckAllCategories" xml:space="preserve">
     <value>Uncheck all</value>
   </data>
+  <data name="MapView_Metrics_Const" xml:space="preserve">
+    <value>Constant</value>
+  </data>
+  <data name="MapView_Metrics_Linear" xml:space="preserve">
+    <value>Linear</value>
+  </data>
+  <data name="MapView_Metrics_Log" xml:space="preserve">
+    <value>Logarithmic</value>
+  </data>
+  <data name="MapView_Metrics_Multiplier" xml:space="preserve">
+    <value>Multiplier:</value>
+  </data>
+  <data name="MapView_Metrics_Title" xml:space="preserve">
+    <value>Metric</value>
+  </data>
   <data name="Map_Title" xml:space="preserve">
     <value>Map</value>
   </data>

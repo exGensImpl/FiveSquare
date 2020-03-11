@@ -11,7 +11,7 @@ namespace ExGens.FiveSquare.Services
   {
     private readonly SharpSquare m_client;
     private Person? m_userCache;
-    private IReadOnlyList<Visit> m_visitCache;
+    private IReadOnlyList<Visits<Venue>> m_visitCache;
     private readonly Dictionary<long,Checkin[]> m_checkinCache = new Dictionary<long, Checkin[]>();
 
     public Person User => m_userCache ?? (m_userCache = GetCurrentUserInfo()).Value;
@@ -22,10 +22,10 @@ namespace ExGens.FiveSquare.Services
       m_client = client;
     }
 
-    public IObservable<Visit> GetVisits()
+    public IObservable<Visits<Venue>> GetVisits()
       => SubjectExtensions.ColdObservable(() => m_visitCache ?? (m_visitCache = RequestVisits()));
 
-    private Visit[] RequestVisits()
+    private Visits<Venue>[] RequestVisits()
       => m_client.GetUserVenueHistory().Select(_ => _.ToVisit()).ToArray();
 
     public IObservable<Checkin> GetCheckins()

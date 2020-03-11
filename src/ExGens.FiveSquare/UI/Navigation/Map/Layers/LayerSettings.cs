@@ -7,7 +7,7 @@ using Mapsui.Styles;
 
 namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
 {
-  internal delegate IVisitMetric MetricFactory(IReadOnlyCollection<Visit> visits, float multiplier);
+  internal delegate IVisitMetric MetricFactory(IReadOnlyCollection<Visits<Venue>> visits, float multiplier);
 
   internal sealed class LayerSettings : NotifyPropertyChangedTrait
   {
@@ -69,7 +69,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
         }
       };
     
-    public IEnumerable<IStyle> GetStyles(Visit visit, IVisitMetric metric)
+    public IEnumerable<IStyle> GetStyles(Visits<Venue> visit, IVisitMetric metric)
       => Scales.Select(scale 
         => new SymbolStyle
         {

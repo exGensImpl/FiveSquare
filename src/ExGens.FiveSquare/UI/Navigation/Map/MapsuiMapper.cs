@@ -14,12 +14,12 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
         coordinates.Longitude,
         coordinates.Latitude);
     
-    public static IFeature ToFeature(this Visit visit, ICollection<IStyle> styles)
+    public static IFeature ToFeature(this Visits<Venue> visit, ICollection<IStyle> styles)
       => new Feature
       {
         Styles = styles,
-        Geometry = visit.Venue.Address.Location.ToMercator(),
-        ["name"] = visit.Venue.Name
+        Geometry = visit.Place.Address.Location.ToMercator(),
+        ["name"] = visit.Place.Name
       };
   }
 }

@@ -73,20 +73,18 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     }
 
     private IReadOnlyCollection<CategoryModel> GetCategoryModels()
-      => CategoryStats.FromVisits(GetFilteredVisits().ToEnumerable())
-                      .OrderByDescending(_ => _.Visits).ThenBy(_ => _.Category.Name)
-                      .Select(_ => new CategoryModel(_.Category, _.Visits))
-                      .ToArray();
+      => GetFilteredCheckins().ToEnumerable()
+                              .VenueVisits()
+                              .To(CategoryStats.Of)
+                              .OrderByDescending(_ => _.Visits)
+                              .ThenBy(_ => _.Category.Name)
+                              .Select(_ => new CategoryModel(_.Category, _.Visits))
+                              .ToArray();
     
-    private IObservable<Visit> GetSelectedCheckins()
+    private IObservable<Visits<Venue>> GetSelectedCheckins()
     {
       var selected = Categories.Where(_ => _.Selected).Select(_ => _.Category).ToArray();
-      return GetFilteredVisits().Where(_ => _.Venue.Categories.Intersect(selected).Any());
+      return GetFilteredCheckins().VenueVisits().Where(_ => _.Place.Categories.Intersect(selected).Any());
     }
-
-    private IObservable<Visit> GetFilteredVisits()
-      => GetFilteredCheckins()
-        .GroupBy(_ => _.Location)
-        .SelectAsync(async _ => new Visit(_.Key, await _.Count()));
   }
 }

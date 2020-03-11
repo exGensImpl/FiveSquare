@@ -16,19 +16,14 @@ namespace ExGens.FiveSquare.Domain
       Visits = visits;
     }
 
-    public static IEnumerable<CategoryStats> FromVisits(IEnumerable<Visit> visits)
+    public static IEnumerable<CategoryStats> Of(IEnumerable<Visits<Venue>> visits)
     {
       var categories =
         from visit in visits
-        from category in visit.Venue.Categories
+        from category in visit.Place.Categories
         group visit by category;
 
       return categories.Select(_ => new CategoryStats(_.Key, _.Count(), _.Sum(v => v.Times)));
-    }
-
-    public static IEnumerable<CategoryStats> FromCheckins(IEnumerable<Checkin> checkins)
-    {
-      return FromVisits(checkins.GroupBy(_ => _.Location).Select(_ => new Visit(_.Key, _.Count())));
     }
   }
 }

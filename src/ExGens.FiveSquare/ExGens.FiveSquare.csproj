@@ -238,13 +238,15 @@
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\CategoryStats.cs" />
     <Compile Include="Domain\Checkin.cs" />
+    <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\TimeRanges\Day.cs" />
     <Compile Include="Domain\IHaveDate.cs" />
     <Compile Include="Domain\TimeRanges\Hour.cs" />
     <Compile Include="Domain\TimeRanges\ITimeRange.cs" />
     <Compile Include="Domain\TimeRanges\Month.cs" />
-    <Compile Include="Domain\Place.cs" />
+    <Compile Include="Domain\Venue.cs" />
     <Compile Include="Domain\TimeRanges\TimeRangeMapper.cs" />
+    <Compile Include="Domain\VisitMapper.cs" />
     <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -261,7 +263,7 @@
     <Compile Include="Services\IFourSquareAccessTokenFactory.cs" />
     <Compile Include="Services\SharpSquareMapper.cs" />
     <Compile Include="Domain\Person.cs" />
-    <Compile Include="Domain\Visit.cs" />
+    <Compile Include="Domain\Visits.cs" />
     <Compile Include="Services\SubjectExtensions.cs" />
     <Compile Include="UI\Navigation\Auth\AddressStringBinding.cs" />
     <Compile Include="UI\Navigation\Auth\AuthMode.cs" />
@@ -368,6 +370,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
     <None Include="OpenTK.dll.config" />

@@ -15,9 +15,9 @@ namespace ExGens.FiveSquare.Domain
     /// <summary>
     /// Check-in location
     /// </summary>
-    public Place Location { get; }
+    public Venue Location { get; }
 
-    public Checkin(DateTime date, Place location)
+    public Checkin(DateTime date, Venue location)
     {
       Date = date;
       Location = location;

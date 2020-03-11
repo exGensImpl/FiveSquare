@@ -10,13 +10,13 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
     private readonly float m_maxMultiplier;
     private readonly float m_maxVisitTimes;
 
-    public LogVisitCountMetric(IEnumerable<Visit> visits, float maxMultiplier = 0.3f)
+    public LogVisitCountMetric(IEnumerable<Visits<Venue>> visits, float maxMultiplier = 0.3f)
     {
       m_maxMultiplier = maxMultiplier;
       m_maxVisitTimes = (float) Math.Log(visits.Max(_ => _.Times) + 1);
     }
 
-    public float GetMetric(Visit visit)
+    public float GetMetric(Visits<Venue> visit)
       => 1 + Math.Min(m_maxMultiplier - 1, m_maxMultiplier * (float) Math.Log(visit.Times) / m_maxVisitTimes);
   }
 }

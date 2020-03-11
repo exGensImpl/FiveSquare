@@ -24,7 +24,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
       Layers = new [] { Map(), Checkins() };
     }
 
-    public void UpdateCheckins(IObservable<Visit> source)
+    public void UpdateCheckins(IObservable<Visits<Venue>> source)
     {
       var layer = Layers.OfType<MemoryLayer>() .FirstOrDefault(_ => _.Name == CheckinLayer);
 
@@ -33,7 +33,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
         return;
       }
 
-      var checkinList = new List<Visit>();
+      var checkinList = new List<Visits<Venue>>();
 
       chekinProvider.Clear();
 
@@ -50,22 +50,22 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
     private ILayer Map() 
       => new TileLayer(KnownTileSources.Create(m_settings.TileSource));
 
-    private ILayer Checkins(IReadOnlyCollection<Visit> checkins = null)
+    private ILayer Checkins(IReadOnlyCollection<Visits<Venue>> checkins = null)
       => new MemoryLayer
         {
           Name = CheckinLayer,
           IsMapInfoLayer = true,
           Style = new SymbolStyle{ Opacity = 0 },
-          DataSource = new MemoryProvider(ToFeatures(checkins ?? Array.Empty<Visit>()))
+          DataSource = new MemoryProvider(ToFeatures(checkins ?? Array.Empty<Visits<Venue>>()))
         };
 
-    private IEnumerable<IFeature> ToFeatures(IReadOnlyCollection<Visit> checkins)
+    private IEnumerable<IFeature> ToFeatures(IReadOnlyCollection<Visits<Venue>> checkins)
     {
       var metric = GetMetric(checkins);
       return checkins.Select(_ => _.ToFeature(m_settings.GetStyles(_, metric).ToArray()));
     }
 
-    private IVisitMetric GetMetric(IReadOnlyCollection<Visit> visits)
+    private IVisitMetric GetMetric(IReadOnlyCollection<Visits<Venue>> visits)
       => visits.Any()
       ? m_settings.MetricFactory(visits, m_settings.CheckinPointMultiplier)
       : new ConstantMetric(1);

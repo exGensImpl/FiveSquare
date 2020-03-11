@@ -13,17 +13,23 @@
     /// <summary>
     /// Coutry of the place described
     /// </summary>
-    public string Country { get; }
+    public Country Country { get; }
+
+    /// <summary>
+    /// Coutry of the place described
+    /// </summary>
+    public string City { get; }
     
     /// <summary>
     /// Coordinates of the place described
     /// </summary>
     public Coordinates Location { get; }
 
-    public Address(string s, string country, Coordinates location)
+    public Address(string s, Country country, string city, Coordinates location)
     {
       String = s;
       Country = country;
+      City = city;
       Location = location;
     }
 

@@ -12,6 +12,6 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
     }
 
     /// <inheritdoc />
-    public float GetMetric(Visit visit) => m_value;
+    public float GetMetric(Visits<Venue> visit) => m_value;
   }
 }

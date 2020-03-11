@@ -4,6 +4,7 @@ using ExGens.FiveSquare.Domain;
 using FourSquare.SharpSquare.Entities;
 using Category = ExGens.FiveSquare.Domain.Category;
 using Checkin = ExGens.FiveSquare.Domain.Checkin;
+using Venue = ExGens.FiveSquare.Domain.Venue;
 
 namespace ExGens.FiveSquare.Services
 {
@@ -12,16 +13,16 @@ namespace ExGens.FiveSquare.Services
     public static Coordinates ToCoordinates(this Location location)
       => new Coordinates(location.lat, location.lng);
 
-    public static Visit ToVisit(this VenueHistory history)
-      => new Visit(
+    public static Visits<Venue> ToVisit(this VenueHistory history)
+      => new Visits<Venue>(
         history.venue.ToPlace(),  
         int.Parse(history.beenHere));
 
     public static Category ToCategory(this FourSquare.SharpSquare.Entities.Category category)
       => Category.GetOrCreate(category.id, category.shortName);
 
-    public static Place ToPlace(this Venue venue)
-      => new Place(
+    public static Venue ToPlace(this FourSquare.SharpSquare.Entities.Venue venue)
+      => new Venue(
         venue.id,
         venue.name, 
         venue.location.ToAddress(), 
@@ -30,7 +31,8 @@ namespace ExGens.FiveSquare.Services
     public static Address ToAddress(this Location location)
       => new Address(
         location.address,
-        location.country, 
+        new Country(location.country), 
+        location.city,
         location.ToCoordinates());
 
     public static Checkin ToCheckin(this FourSquare.SharpSquare.Entities.Checkin checkin)

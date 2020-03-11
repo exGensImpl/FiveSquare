@@ -29,7 +29,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Stats
         timeRanges.Select(_ => groupedCheckins.GetOrElse(_, 0)).ToArray());
 
       var categoriesChart = ColumnChartViewModel.Create(
-        CategoryStats.FromCheckins(checkins), 20, _ => _.Category.Name,
+        CategoryStats.Of(checkins.VenueVisits()), 20, _ => _.Category.Name,
         Resources.StatsView_Visits, _ => _.Visits,
         Resources.StatsView_Places, _ => _.Places);
 

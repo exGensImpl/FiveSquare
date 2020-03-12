@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 
 namespace ExGens.FiveSquare.Domain
 {
@@ -17,10 +19,14 @@ namespace ExGens.FiveSquare.Domain
     /// </summary>
     public string Name { get; }
 
-    public Country(string name, string iso31661Alpha2Code = "")
+    public Country(string name)
     {
-      Name = name;
-      Code = iso31661Alpha2Code;
+      var country = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                               .Select(_ => new RegionInfo(_.LCID))
+                               .FirstOrDefault( _ => _.EnglishName == name);
+      
+      Name = country?.DisplayName ?? name;
+      Code = country?.TwoLetterISORegionName ?? "";
     }
 
     #region Equality
@@ -56,6 +62,6 @@ namespace ExGens.FiveSquare.Domain
     #endregion
 
     /// <inheritdoc />
-    public override string ToString() => Code;
+    public override string ToString() => Name;
   }
 }

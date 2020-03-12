@@ -75,10 +75,10 @@ namespace ExGens.FiveSquare.UI.Navigation.Map
     private IReadOnlyCollection<CategoryModel> GetCategoryModels()
       => GetFilteredCheckins().ToEnumerable()
                               .VenueVisits()
-                              .To(CategoryStats.Of)
+                              .StatsBy(_ => _.Categories)
                               .OrderByDescending(_ => _.Visits)
-                              .ThenBy(_ => _.Category.Name)
-                              .Select(_ => new CategoryModel(_.Category, _.Visits))
+                              .ThenBy(_ => _.Location.Name)
+                              .Select(_ => new CategoryModel(_.Location, _.Visits))
                               .ToArray();
     
     private IObservable<Visits<Venue>> GetSelectedCheckins()

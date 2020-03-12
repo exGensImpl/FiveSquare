@@ -236,7 +236,7 @@
     </ApplicationDefinition>
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Category.cs" />
-    <Compile Include="Domain\CategoryStats.cs" />
+    <Compile Include="Domain\Stats.cs" />
     <Compile Include="Domain\Checkin.cs" />
     <Compile Include="Domain\Country.cs" />
     <Compile Include="Domain\TimeRanges\Day.cs" />

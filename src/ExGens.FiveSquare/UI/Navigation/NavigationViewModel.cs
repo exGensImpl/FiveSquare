@@ -4,17 +4,18 @@ using ExGens.FiveSquare.Infrastructure;
 using ExGens.FiveSquare.Services;
 using ExGens.FiveSquare.UI.Navigation.Auth;
 using ExGens.FiveSquare.UI.Navigation.Map;
+using ExGens.FiveSquare.UI.Navigation.PlacesStats;
 using ExGens.FiveSquare.UI.Navigation.Stats;
 
 namespace ExGens.FiveSquare.UI.Navigation
 {
   internal sealed class NavigationViewModel : NotifyPropertyChangedTrait, IViewModel
   {
-
     public IReadOnlyList<IModeFactory> Modes { get; } = new IModeFactory[]
     {
       new MapMode(),
       new StatsMode(),
+      new PlacesStatsMode(), 
       new AuthMode(), 
     };
 

@@ -133,6 +133,33 @@ namespace ExGens.FiveSquare.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Places.
+        /// </summary>
+        public static string PlacesStatsView_Places {
+            get {
+                return ResourceManager.GetString("PlacesStatsView_Places", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Places.
+        /// </summary>
+        public static string PlacesStatsView_Title {
+            get {
+                return ResourceManager.GetString("PlacesStatsView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Visits.
+        /// </summary>
+        public static string PlacesStatsView_Visits {
+            get {
+                return ResourceManager.GetString("PlacesStatsView_Visits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap powered_by_foursquare_blue {

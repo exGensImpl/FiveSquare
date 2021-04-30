@@ -48,7 +48,7 @@ namespace ExGens.FiveSquare.UI.Navigation.Map.Layers
     }
 
     private ILayer Map() 
-      => new TileLayer(KnownTileSources.Create(m_settings.TileSource));
+      => new TileLayer(KnownTileSources.Create(m_settings.TileSource, userAgent:"Five-Square"));
 
     private ILayer Checkins(IReadOnlyCollection<Visits<Venue>> checkins = null)
       => new MemoryLayer

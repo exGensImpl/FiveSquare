@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ExGens.FiveSquare.Domain;
 using FourSquare.SharpSquare.Entities;
@@ -10,6 +12,8 @@ namespace ExGens.FiveSquare.Services
 {
   internal static class SharpSquareMapper
   {
+    private static readonly CityDictionary m_cityDictionary = CityDictionaryFactory.Load("../../../../../data/cities.txt");
+
     public static Coordinates ToCoordinates(this Location location)
       => new Coordinates(location.lat, location.lng);
 
@@ -32,7 +36,7 @@ namespace ExGens.FiveSquare.Services
       => new Address(
         location.address,
         new Country(location.country), 
-        location.city,
+        m_cityDictionary.Map(location.city ?? ""),
         location.ToCoordinates());
 
     public static Checkin ToCheckin(this FourSquare.SharpSquare.Entities.Checkin checkin)
@@ -44,5 +48,41 @@ namespace ExGens.FiveSquare.Services
       => new DateTime(1970,1,1,0,0,0,0, DateTimeKind.Utc)
         .AddSeconds( unixTimeStamp )
         .ToLocalTime();
+  }
+
+  internal static class CityDictionaryFactory
+  {
+    public static CityDictionary Load(string Filepath)
+    {
+      try
+      {
+        return new CityDictionary(
+          File.ReadLines(Filepath)
+            .Select(_ => _.Split('|'))
+            .ToDictionary(_ => _[0], _ => _[1])
+        );
+      }
+      catch
+      {
+        return new CityDictionary(new Dictionary<string, string>());
+      }
+    }
+  }
+
+  internal sealed class CityDictionary
+  {
+    private readonly IReadOnlyDictionary<string, string> m_cities;
+
+    public CityDictionary(IReadOnlyDictionary<string, string> Names)
+    {
+      m_cities = Names;
+    }
+
+    public string Map(string originName)
+    {
+      return originName != null && m_cities.ContainsKey(originName) ? 
+        m_cities[originName] : 
+        originName;
+    }
   }
 }

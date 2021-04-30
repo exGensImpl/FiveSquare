@@ -1,0 +1,16 @@
+Saint Petersburg|Санкт-Петербург
+Kupchino Municipal Okrug|Санкт-Петербург
+Shushary|Санкт-Петербург
+Murino|Санкт-Петербург
+Kudrovo|Санкт-Петербург
+Yekaterinburg|Екатеринбург
+Kronshtadt|Кронштадт
+город Кронштадт|Кронштадт
+Kurgan|Курган
+Chelyabinsk|Челябинск
+Vyborg|Выборг
+Orekhovo|Орехово
+поселок Орехово|Орехово
+Vyritsa|Вырица
+Vyrista|Вырица
+|Неизвестно

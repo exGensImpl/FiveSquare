@@ -18,11 +18,16 @@ namespace ExGens.FiveSquare.Domain.TimeRanges
 
     public Month(DateTime start)
     {
-      Start = start.Date.Subtract(TimeSpan.FromDays(start.Day));
+      Start = start.Date.Subtract(TimeSpan.FromDays(start.Day - 1));
     }
 
     /// <inheritdoc />
-    public ITimeRange GetNext() => new Month(Start.AddMonths(1));
+    public ITimeRange GetNext()
+    {
+      var res = Start.AddMonths(1);
+      var res2 = new Month(res);
+      return res2;
+    }
 
     /// <inheritdoc />
     public bool Equals(ITimeRange other) => other is Month month && Start == month.Start;
